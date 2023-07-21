@@ -1,10 +1,14 @@
 import { Form, Field } from 'formik';
 import styled from 'styled-components';
-
-const mainTextColor = '#14142b';
+import {
+  mainBackground,
+  mainTextBlack,
+  mainGray,
+  mainLabelText,
+} from 'Theme/Theme.ts';
 
 export const UserFormTitle = styled('p')`
-  color: ${mainTextColor};
+  color: ${mainTextBlack};
 
   font-family: Poppins;
   font-weight: 600;
@@ -22,7 +26,8 @@ export const UserForm = styled(Form)`
 `;
 
 export const UserFormField = styled(Field)`
-  color: ${mainTextColor};
+  color: ${mainTextBlack};
+  background-color: ${mainBackground};
 
   font-family: Poppins;
   font-weight: 400;
@@ -30,7 +35,7 @@ export const UserFormField = styled(Field)`
   line-height: 1.41;
 
   border: 0;
-  border-bottom: 1px solid ${mainTextColor};
+  border-bottom: 1px solid ${mainTextBlack};
   margin: 5px 0 25px;
 
   outline: none;
@@ -39,7 +44,7 @@ export const UserFormField = styled(Field)`
 export const UserFormLabel = styled('label')`
   align-self: flex-start;
 
-  color: #6e7191;
+  color: ${mainLabelText};
 
   font-family: Poppins;
   font-weight: 400;
@@ -51,7 +56,7 @@ export const UserFormButton = styled('button')`
   height: 56px;
   width: 135px;
 
-  color: #4e4b66;
+  color: ${mainGray};
 
   font-family: Poppins;
   font-weight: 400;

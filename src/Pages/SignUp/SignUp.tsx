@@ -5,20 +5,23 @@ import {
   UserFormField,
   UserFormLabel,
   UserFormButton,
-} from '../../components/UserFrom/UserFrom.styled';
+} from 'components/UserFrom/UserFrom.styled.ts';
 import {
   SignUpContainer,
   AdminCheckbox,
   AdminCheckboxLabel,
-  AdminCheckboxContainer,
-} from './SignUp.styled';
+  AdminCustomCheckbox,
+} from 'Pages/SignUp/SignUp.styled';
 
 export default function SignIn() {
   return (
     <SignUpContainer>
       <UserFormTitle>Create your account</UserFormTitle>
-      <Formik initialValues={{ email: '', password: '' }} onSubmit>
-        {({ isSubmiting, values }) => (
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        onSubmit={(values, { resetForm }) => {}}
+      >
+        {({ isSubmitting, values }) => (
           <UserForm>
             <UserFormLabel htmlFor="Username">Username</UserFormLabel>
             <UserFormField type="text" id="Username" name="name" required />
@@ -33,17 +36,16 @@ export default function SignIn() {
               required
             />
 
-            <AdminCheckboxContainer>
+            <AdminCheckboxLabel htmlFor="isAdmin">
               <AdminCheckbox
                 style={{ margin: 0 }}
                 type="checkbox"
                 id="isAdmin"
                 name="admin"
               />
-              <AdminCheckboxLabel htmlFor="isAdmin">
-                is admin
-              </AdminCheckboxLabel>
-            </AdminCheckboxContainer>
+              <AdminCustomCheckbox />
+              is admin
+            </AdminCheckboxLabel>
 
             <UserFormButton style={{ marginTop: '90px' }} type="submit">
               Sign Up
