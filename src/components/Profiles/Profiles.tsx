@@ -1,114 +1,86 @@
+import React, { useState } from 'react';
 import {
   ProfileContainer,
   ProfileTitle,
   ProfileCardsList,
   ProfileCardContainer,
-  ProfileCardText,
-  ProfileBtnsContainer,
-  ProfileBtn,
-  ProfileBtnImg,
   ProfileAddBtn,
   CreateProfileText,
   ProfileAddBtnImg,
-} from 'components/Profiles/Profiles.styled.ts';
+} from 'components/Profiles/Profiles.styled';
+import Modal from 'components/Modal/Modal';
 import svg from 'Images/symbol-defs.svg';
+import ProfilesCardItem from './ProfilesCardItem';
 
-export default function Profiles() {
+const Profiles: React.FC = () => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+  console.log(showModal);
+
+  const a = [
+    {
+      name: 'adfs',
+      gender: 'male',
+      birthDate: 'asdf',
+      city: 'wer',
+    },
+    {
+      name: 'adfs',
+      gender: 'male',
+      birthDate: 'asdf',
+      city: 'wer',
+    },
+    ,
+    {
+      name: 'adfs',
+      gender: 'male',
+      birthDate: 'asdf',
+      city: 'wer',
+    },
+    ,
+    {
+      name: 'adfs',
+      gender: 'male',
+      birthDate: 'asdf',
+      city: 'wer',
+    },
+  ];
+
+  const toggleModal = () => {
+    setShowModal(prevState => !prevState);
+  };
+
   return (
-    <ProfileContainer>
-      <ProfileTitle>Profiles:</ProfileTitle>
-      <ProfileCardsList>
-        <li>
-          <ProfileCardContainer>
-            <ProfileCardText>Danylo Bilyi</ProfileCardText>
-            <ProfileCardText>male</ProfileCardText>
-            <ProfileCardText>25.03.2003</ProfileCardText>
-            <ProfileCardText>Kyiv</ProfileCardText>
-
-            <ProfileBtnsContainer>
-              <ProfileBtn>
-                edit
-                <ProfileBtnImg>
-                  <use href={`${svg}#icon-Edit-1`}></use>
-                </ProfileBtnImg>
-              </ProfileBtn>
-
-              <ProfileBtn>
-                delete
-                <ProfileBtnImg>
-                  <use href={`${svg}#icon-Delete-1`}></use>
-                </ProfileBtnImg>
-              </ProfileBtn>
-            </ProfileBtnsContainer>
-          </ProfileCardContainer>
-        </li>
-        <li>
-          <ProfileCardContainer>
-            <ProfileCardText>Danylo Bilyi</ProfileCardText>
-            <ProfileCardText>male</ProfileCardText>
-            <ProfileCardText>25.03.2003</ProfileCardText>
-            <ProfileCardText>Kyiv</ProfileCardText>
-          </ProfileCardContainer>
-        </li>
-        <li>
-          <ProfileCardContainer>
-            <p>Danylo Bilyi</p>
-            <p>male</p>
-            <p>25.03.2003</p>
-            <p>Kyiv</p>
-          </ProfileCardContainer>
-        </li>
-        <li>
-          <ProfileCardContainer>
-            <p>Danylo Bilyi</p>
-            <p>male</p>
-            <p>25.03.2003</p>
-            <p>Kyiv</p>
-          </ProfileCardContainer>
-        </li>
-        <li>
-          <ProfileCardContainer>
-            <p>Danylo Bilyi</p>
-            <p>male</p>
-            <p>25.03.2003</p>
-            <p>Kyiv</p>
-          </ProfileCardContainer>
-        </li>
-        <li>
-          <ProfileCardContainer>
-            <p>Danylo Bilyi</p>
-            <p>male</p>
-            <p>25.03.2003</p>
-            <p>Kyiv</p>
-          </ProfileCardContainer>
-        </li>
-        <li>
-          <ProfileCardContainer>
-            <p>Danylo Bilyi</p>
-            <p>male</p>
-            <p>25.03.2003</p>
-            <p>Kyiv</p>
-          </ProfileCardContainer>
-        </li>
-        <li>
-          <ProfileCardContainer>
-            <p>Danylo Bilyi</p>
-            <p>male</p>
-            <p>25.03.2003</p>
-            <p>Kyiv</p>
-          </ProfileCardContainer>
-        </li>
-        <li>
-          <ProfileCardContainer>
-            <ProfileAddBtn>
-              <ProfileAddBtnImg>
-                <use href={`${svg}#icon-Plus-1`}></use>
-              </ProfileAddBtnImg>
-            </ProfileAddBtn>
-            <CreateProfileText>Create new profile</CreateProfileText>
-          </ProfileCardContainer>
-        </li>
-      </ProfileCardsList>
-    </ProfileContainer>
+    <>
+      <ProfileContainer>
+        <ProfileTitle>Profiles:</ProfileTitle>
+        <ProfileCardsList>
+          {a.map((el, idx: number) => {
+            return (
+              <li key={idx}>
+                <ProfilesCardItem
+                  name={el?.name ?? ''}
+                  gender={el?.gender ?? ''}
+                  birthDate={el?.birthDate ?? ''}
+                  city={el?.city ?? ''}
+                />
+              </li>
+            );
+          })}
+          <li>
+            <ProfileCardContainer>
+              <ProfileAddBtn onClick={toggleModal}>
+                <ProfileAddBtnImg>
+                  <use href={`${svg}#icon-Plus-1`}></use>
+                </ProfileAddBtnImg>
+              </ProfileAddBtn>
+              <CreateProfileText>Create new profile</CreateProfileText>
+            </ProfileCardContainer>
+          </li>
+        </ProfileCardsList>
+      </ProfileContainer>
+      {showModal && <Modal />}
+    </>
   );
-}
+};
+
+export default Profiles;

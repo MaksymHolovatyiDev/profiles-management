@@ -1,33 +1,46 @@
+import React from 'react';
 import { Formik } from 'formik';
 import {
+  UserFormContainer,
   UserFormTitle,
   UserForm,
   UserFormField,
   UserFormLabel,
   UserFormButton,
-} from 'components/UserFrom/UserFrom.styled.ts';
-import {
-  SignUpContainer,
-  AdminCheckbox,
-  AdminCheckboxLabel,
-  AdminCustomCheckbox,
-} from 'Pages/SignUp/SignUp.styled';
+  UserFormLink,
+  UserFormCheckboxLabel,
+  UserFormCheckbox,
+  UserFormCustomCheckbox,
+} from 'components/UserFrom/UserFrom.styled';
+import { UserSignUpData } from 'components/Types/Types';
+import { useNavigate } from 'react-router-dom';
 
-export default function SignIn() {
+const SignIn: React.FC = () => {
+  const navigate = useNavigate();
   return (
-    <SignUpContainer>
+    <UserFormContainer>
       <UserFormTitle>Create your account</UserFormTitle>
       <Formik
-        initialValues={{ email: '', password: '' }}
-        onSubmit={(values, { resetForm }) => {}}
+        initialValues={{
+          name: '',
+          email: '',
+          password: '',
+          admin: false,
+          remember: false,
+        }}
+        onSubmit={(values: UserSignUpData): void => {
+          navigate('/');
+          console.log(values);
+        }}
       >
-        {({ isSubmitting, values }) => (
+        {() => (
           <UserForm>
             <UserFormLabel htmlFor="Username">Username</UserFormLabel>
             <UserFormField type="text" id="Username" name="name" required />
-            <UserFormLabel htmlFor="UserEmail">Email</UserFormLabel>
 
+            <UserFormLabel htmlFor="UserEmail">Email</UserFormLabel>
             <UserFormField type="email" id="UserEmail" name="email" required />
+
             <UserFormLabel htmlFor="UserPassword">Password</UserFormLabel>
             <UserFormField
               type="password"
@@ -36,16 +49,27 @@ export default function SignIn() {
               required
             />
 
-            <AdminCheckboxLabel htmlFor="isAdmin">
-              <AdminCheckbox
+            <UserFormCheckboxLabel htmlFor="isAdmin">
+              <UserFormCheckbox
                 style={{ margin: 0 }}
                 type="checkbox"
                 id="isAdmin"
                 name="admin"
               />
-              <AdminCustomCheckbox />
+              <UserFormCustomCheckbox />
               is admin
-            </AdminCheckboxLabel>
+            </UserFormCheckboxLabel>
+
+            <UserFormCheckboxLabel htmlFor="rememberMe">
+              <UserFormCheckbox
+                style={{ margin: 0 }}
+                type="checkbox"
+                id="rememberMe"
+                name="remember"
+              />
+              <UserFormCustomCheckbox />
+              remember me
+            </UserFormCheckboxLabel>
 
             <UserFormButton style={{ marginTop: '90px' }} type="submit">
               Sign Up
@@ -53,7 +77,9 @@ export default function SignIn() {
           </UserForm>
         )}
       </Formik>
-      <UserFormButton>Sign In</UserFormButton>
-    </SignUpContainer>
+      <UserFormLink to="/SignIn">Sign In</UserFormLink>
+    </UserFormContainer>
   );
-}
+};
+
+export default SignIn;

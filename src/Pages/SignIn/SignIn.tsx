@@ -1,22 +1,30 @@
+import React from 'react';
 import { Formik } from 'formik';
 import {
+  UserFormContainer,
   UserFormTitle,
   UserForm,
   UserFormField,
   UserFormLabel,
   UserFormButton,
-} from 'components/UserFrom/UserFrom.styled.ts';
-import { SignInContainer } from 'Pages/SignIn/SignIn.styled.ts';
+  UserFormLink,
+  UserFormCheckboxLabel,
+  UserFormCheckbox,
+  UserFormCustomCheckbox,
+} from 'components/UserFrom/UserFrom.styled';
+import { UserSignInData } from 'components/Types/Types';
 
-export default function SignIn() {
+const SignIn: React.FC = () => {
   return (
-    <SignInContainer>
+    <UserFormContainer>
       <UserFormTitle>Sign in</UserFormTitle>
       <Formik
-        initialValues={{ email: '', password: '' }}
-        onSubmit={(values, { resetForm }) => {}}
+        initialValues={{ email: '', password: '', remember: false }}
+        onSubmit={(values: UserSignInData): void => {
+          console.log(values);
+        }}
       >
-        {({ isSubmitting, values }) => (
+        {() => (
           <UserForm>
             <UserFormLabel htmlFor="UserEmail">Email</UserFormLabel>
             <UserFormField type="email" id="UserEmail" name="email" required />
@@ -29,13 +37,26 @@ export default function SignIn() {
               required
             />
 
+            <UserFormCheckboxLabel htmlFor="rememberMe">
+              <UserFormCheckbox
+                style={{ margin: 0 }}
+                type="checkbox"
+                id="rememberMe"
+                name="remember"
+              />
+              <UserFormCustomCheckbox />
+              remember me
+            </UserFormCheckboxLabel>
+
             <UserFormButton style={{ marginTop: '90px' }} type="submit">
               Sign In
             </UserFormButton>
           </UserForm>
         )}
       </Formik>
-      <UserFormButton>Sign Up</UserFormButton>
-    </SignInContainer>
+      <UserFormLink to="/SignUp">Sign Up</UserFormLink>
+    </UserFormContainer>
   );
-}
+};
+
+export default SignIn;

@@ -1,5 +1,6 @@
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { mainTextBlack } from 'Theme/Theme.ts';
+import { mainHoverColor, mainTextBlack } from 'Theme/Theme';
 
 export const MainHeader = styled('header')`
   height: 80px;
@@ -43,7 +44,7 @@ export const NavigationList = styled('ul')`
   }
 `;
 
-export const NavigationLink = styled('a')`
+export const NavigationLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,6 +55,20 @@ export const NavigationLink = styled('a')`
   font-weight: 400;
   font-size: 18px;
   line-height: 1.5;
+
+  text-decoration: none;
+
+  transition: color 150ms cubic-bezier(0.18, 0.75, 0.95, 0.63);
+
+  &:hover,
+  &:focus {
+    color: ${mainHoverColor};
+  }
+
+  &:hover > svg,
+  &:focus > svg {
+    fill: ${mainHoverColor};
+  }
 `;
 
 export const NavigationImg = styled('svg')`
@@ -61,4 +76,6 @@ export const NavigationImg = styled('svg')`
   width: 24px;
 
   margin-left: 7px;
+
+  transition: fill 150ms cubic-bezier(0.18, 0.75, 0.95, 0.63);
 `;

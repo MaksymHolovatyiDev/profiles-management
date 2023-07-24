@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { mainTextBlack, mainGray } from 'Theme/Theme.ts';
+import { mainTextBlack, mainGray, white, borderColor } from 'Theme/Theme';
 
 export const DashboardContainer = styled('div')`
-  padding: 0 120px;
-  margin: 60px 0 78px;
+  padding: 60px 120px 78px;
 `;
 
 export const DashboardTitle = styled('p')`
@@ -29,10 +28,10 @@ export const DashboardCardContainer = styled('div')`
   align-items: center;
   gap: 50px;
 
-  background-color: #ffffff;
+  background-color: ${white};
 
   padding: 80px 75px;
-  border: 1px solid #d6d8e7;
+  border: 1px solid ${borderColor};
   border-radius: 12px;
 `;
 

@@ -1,11 +1,26 @@
 import { Form, Field } from 'formik';
-import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 import {
   mainBackground,
   mainTextBlack,
   mainGray,
   mainLabelText,
-} from 'Theme/Theme.ts';
+  lightGray,
+  buttonBackgroundColor,
+  white,
+} from 'Theme/Theme';
+
+export const UserFormContainer = styled('div')`
+  width: 522px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin: 120px auto 0;
+`;
 
 export const UserFormTitle = styled('p')`
   color: ${mainTextBlack};
@@ -52,11 +67,12 @@ export const UserFormLabel = styled('label')`
   line-height: 1.88;
 `;
 
-export const UserFormButton = styled('button')`
+const buttonsStyles = css`
   height: 56px;
   width: 135px;
 
   color: ${mainGray};
+  background-color: ${buttonBackgroundColor};
 
   font-family: Poppins;
   font-weight: 400;
@@ -65,4 +81,66 @@ export const UserFormButton = styled('button')`
 
   border: 0;
   border-radius: 12px;
+
+  cursor: pointer;
+
+  transition: background-color 250ms cubic-bezier(0.18, 0.75, 0.95, 0.63),
+    color 250ms cubic-bezier(0.18, 0.75, 0.95, 0.63);
+
+  &:hover,
+  &:focus {
+    color: ${white};
+    background-color: ${lightGray};
+  }
+`;
+
+export const UserFormButton = styled('button')`
+  ${buttonsStyles}
+`;
+
+export const UserFormLink = styled(NavLink)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-decoration: none;
+  ${buttonsStyles}
+`;
+
+export const UserFormCheckbox = styled(Field)`
+  display: none;
+  &:checked + div {
+    background-color: ${mainTextBlack};
+  }
+`;
+
+export const UserFormCustomCheckbox = styled('div')`
+  box-sizing: content-box;
+
+  height: 6px;
+  width: 6px;
+
+  background-color: transparent;
+
+  border: 1px solid ${mainBackground};
+  border-radius: 1px;
+  outline: 1px solid ${mainTextBlack};
+`;
+
+export const UserFormCheckboxLabel = styled('label')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  color: ${mainTextBlack};
+
+  font-family: Poppins;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.41;
+
+  & + & {
+    margin-top: 15px;
+  }
 `;

@@ -1,9 +1,17 @@
 import styled from 'styled-components';
-import { mainTextBlack, mainGray } from 'Theme/Theme.ts';
+import {
+  mainTextBlack,
+  mainGray,
+  white,
+  borderColor,
+  buttonHoverColor,
+  lightGreen,
+  editButton,
+  deleteButton,
+} from 'Theme/Theme';
 
 export const ProfileContainer = styled('div')`
-  padding: 0 120px;
-  margin: 60px 0 78px;
+  padding: 60px 120px 78px;
 `;
 
 export const ProfileTitle = styled('p')`
@@ -38,15 +46,16 @@ export const ProfileCardContainer = styled('div')`
   align-items: center;
   gap: 15px;
 
-  background-color: #ffffff;
+  background-color: ${white};
 
   padding-top: 35px;
-  border: 1px solid #d6d8e7;
+  border: 1px solid ${borderColor};
   border-radius: 12px;
 
   overflow: hidden;
 
-  &:hover > div {
+  &:hover > div,
+  &:focus > div {
     transform: translate(0, 0);
   }
 `;
@@ -77,7 +86,7 @@ export const ProfileBtnsContainer = styled('div')`
   background-color: transparent;
 
   border: none;
-  border-top: 1px solid #d6d8e7;
+  border-top: 1px solid ${borderColor};
   margin-top: auto;
 
   transform: translate(0, 100%);
@@ -107,22 +116,25 @@ export const ProfileBtn = styled('button')`
   transition: color 250ms cubic-bezier(0.18, 0.75, 0.95, 0.63),
     background-color 250ms cubic-bezier(0.18, 0.75, 0.95, 0.63);
 
-  &:hover:first-child {
-    background-color: #624af2;
-    color: #fcfcfc;
+  &:hover:first-child,
+  &:focus:first-child {
+    background-color: ${editButton};
+    color: ${buttonHoverColor};
   }
 
-  &:hover:last-child {
-    background-color: #eb0055;
-    color: #fcfcfc;
+  &:hover:last-child,
+  &:focus:last-child {
+    background-color: ${deleteButton};
+    color: ${buttonHoverColor};
   }
 
-  &:hover > svg {
-    stroke: #fcfcfc;
+  &:hover > svg,
+  &:focus > svg {
+    stroke: ${buttonHoverColor};
   }
 
   &:first-child {
-    border-right: 1px solid #d6d8e7;
+    border-right: 1px solid ${borderColor};
   }
 `;
 
@@ -157,7 +169,7 @@ export const ProfileAddBtn = styled('button')`
   font-family: Poppins;
   font-size: 42px;
 
-  color: #4e4b66;
+  color: ${mainGray};
   background-color: transparent;
 
   border: 1px solid ${mainGray};
@@ -168,12 +180,14 @@ export const ProfileAddBtn = styled('button')`
 
   cursor: pointer;
 
-  &:hover {
-    background-color: #98f542;
+  &:hover,
+  &:focus {
+    background-color: ${lightGreen};
   }
 
-  &:hover > svg {
-    stroke: #fcfcfc;
+  &:hover > svg,
+  &:focus > svg {
+    stroke: ${buttonHoverColor};
   }
 `;
 

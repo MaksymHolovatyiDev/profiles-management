@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Form, Field } from 'formik';
 import {
   mainTextBlack,
@@ -21,7 +21,7 @@ export const Backdrop = styled('div')`
   background-color: rgba(0, 0, 0, 20%);
 `;
 
-export const ModalContainer = styled('div')`
+export const UserModalContainer = styled('div')`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -34,13 +34,13 @@ export const ModalContainer = styled('div')`
 
   background-color: ${white};
 
-  padding: 70px 175px;
+  padding: 70px 150px;
   border-radius: 12px;
 
   transform: translate(-50%, -50%);
 `;
 
-export const ModalForm = styled(Form)`
+export const UserModalForm = styled(Form)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,7 +49,7 @@ export const ModalForm = styled(Form)`
   gap: 25px;
 `;
 
-export const inputSyles = css`
+export const UserModalField = styled(Field)`
   width: 100%;
 
   color: ${mainTextBlack};
@@ -67,15 +67,7 @@ export const inputSyles = css`
   outline: none;
 `;
 
-export const ModalField = styled(Field)`
-  ${inputSyles}
-`;
-
-export const DateInput = styled('input')`
-  ${inputSyles}
-`;
-
-export const ModalLabel = styled('label')`
+export const UserModalLabel = styled('label')`
   width: 100%;
 
   color: ${mainLabelText};
@@ -91,8 +83,6 @@ export const RadioWraper = styled('div')`
 `;
 
 export const RadioContainer = styled('div')`
-  width: 100%;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -112,8 +102,6 @@ export const RadioLabel = styled('label')`
   font-weight: 400;
   font-size: 24px;
   line-height: 1.5;
-
-  cursor: pointer;
 `;
 
 export const RadioInput = styled(Field)`
@@ -142,7 +130,7 @@ export const CustomRadio = styled('div')`
   outline: 1px solid ${mainTextBlack};
 `;
 
-export const ModalBtnsContainer = styled('div')`
+export const UserModalBtnsContainer = styled('div')`
   width: 100%;
 
   display: flex;
@@ -153,7 +141,7 @@ export const ModalBtnsContainer = styled('div')`
   margin-top: 25px;
 `;
 
-export const ModalBtn = styled('button')`
+export const UserModalBtn = styled('button')`
   height: 38px;
   width: 100px;
 
@@ -181,7 +169,7 @@ export const ModalBtn = styled('button')`
   }
 `;
 
-export const ModalImage = styled('svg')`
+export const UserModalImage = styled('svg')`
   height: 24px;
   width: 24px;
 

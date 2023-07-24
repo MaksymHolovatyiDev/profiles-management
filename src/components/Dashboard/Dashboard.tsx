@@ -4,9 +4,20 @@ import {
   DashboardCardsList,
   DashboardCardContainer,
   DashboardCardText,
-} from 'components/Dashboard/Dashboard.styled.ts';
+} from 'components/Dashboard/Dashboard.styled';
+import { useEffect, useState } from 'react';
 
-export default function Dashboard() {
+const Dashboard: React.FC = () => {
+  const [dasboardData, setDashboardData] = useState<{
+    Users: number;
+    Profiles: number;
+    AdultProfiles: number;
+  }>({ Users: 10, Profiles: 25, AdultProfiles: 6 });
+
+  useEffect(() => {
+    setDashboardData({ Users: 10, Profiles: 25, AdultProfiles: 6 });
+  }, []);
+
   return (
     <DashboardContainer>
       <DashboardTitle>Dashboard:</DashboardTitle>
@@ -14,22 +25,24 @@ export default function Dashboard() {
         <li>
           <DashboardCardContainer>
             <DashboardCardText>Users:</DashboardCardText>
-            <DashboardCardText>13</DashboardCardText>
+            <DashboardCardText>{dasboardData.Users}</DashboardCardText>
           </DashboardCardContainer>
         </li>
         <li>
           <DashboardCardContainer>
             <DashboardCardText>Profiles:</DashboardCardText>
-            <DashboardCardText>27</DashboardCardText>
+            <DashboardCardText>{dasboardData.Profiles}</DashboardCardText>
           </DashboardCardContainer>
         </li>
         <li>
           <DashboardCardContainer>
             <DashboardCardText>Profiles over 18 years old:</DashboardCardText>
-            <DashboardCardText>20</DashboardCardText>
+            <DashboardCardText>{dasboardData.AdultProfiles}</DashboardCardText>
           </DashboardCardContainer>
         </li>
       </DashboardCardsList>
     </DashboardContainer>
   );
-}
+};
+
+export default Dashboard;

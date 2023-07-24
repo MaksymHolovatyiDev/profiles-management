@@ -1,14 +1,17 @@
-import Header from 'components/Header/Header.tsx';
-import Profiles from 'components/Profiles/Profiles.tsx';
-import Users from 'components/Users/Users.tsx';
-import Dashboard from 'components/Dashboard/Dashboard';
-import Modal from 'components/Modal/Modal';
+import React, { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
+import Header from 'components/Header/Header';
+import Spiner from 'components/Spiner/Spiner';
 
-export default function MainPage() {
+const MainPage: React.FC = () => {
   return (
     <>
       <Header />
-      <Modal />
+      <Suspense fallback={<Spiner />}>
+        <Outlet />
+      </Suspense>
     </>
   );
-}
+};
+
+export default MainPage;

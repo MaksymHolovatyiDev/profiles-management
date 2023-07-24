@@ -1,3 +1,5 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   MainHeader,
   UserContainer,
@@ -6,10 +8,13 @@ import {
   NavigationList,
   NavigationLink,
   NavigationImg,
-} from 'components/Header/Header.styled.ts';
+} from 'components/Header/Header.styled';
 import svg from 'Images/symbol-defs.svg';
+import { getAdmin } from 'Redux/selectors';
 
-export default function Header() {
+const Header: React.FC = () => {
+  const isAdmin = useSelector(getAdmin);
+
   return (
     <>
       <MainHeader>
@@ -20,36 +25,44 @@ export default function Header() {
 
         <nav>
           <NavigationList>
+            {isAdmin && (
+              <>
+                <li>
+                  <NavigationLink to="/">
+                    Profiles
+                    <NavigationImg>
+                      <use href={`${svg}#icon-person_pin_circle-1`}></use>
+                    </NavigationImg>
+                  </NavigationLink>
+                </li>
+                <li>
+                  <NavigationLink to="/Dashboard">
+                    DashBoard
+                    <NavigationImg>
+                      <use href={`${svg}#icon-dashboard-1`}></use>
+                    </NavigationImg>
+                  </NavigationLink>
+                </li>
+                <li>
+                  <NavigationLink to="/Users">
+                    Users
+                    <NavigationImg>
+                      <use href={`${svg}#icon-users-1`}></use>
+                    </NavigationImg>
+                  </NavigationLink>
+                </li>
+              </>
+            )}
             <li>
-              <NavigationLink>
-                Profiles
-                <NavigationImg>
-                  <use href={`${svg}#icon-person_pin_circle-1`}></use>
-                </NavigationImg>
+              <NavigationLink to="/SignIn" replace>
+                Log out
               </NavigationLink>
-            </li>
-            <li>
-              <NavigationLink>
-                DashBoard
-                <NavigationImg>
-                  <use href={`${svg}#icon-dashboard-1`}></use>
-                </NavigationImg>
-              </NavigationLink>
-            </li>
-            <li>
-              <NavigationLink>
-                Users
-                <NavigationImg>
-                  <use href={`${svg}#icon-users-1`}></use>
-                </NavigationImg>
-              </NavigationLink>
-            </li>
-            <li>
-              <NavigationLink>Log out</NavigationLink>
             </li>
           </NavigationList>
         </nav>
       </MainHeader>
     </>
   );
-}
+};
+
+export default Header;
