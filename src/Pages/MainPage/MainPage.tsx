@@ -7,7 +7,9 @@ const MainPage: React.FC = () => {
   return (
     <>
       <Header />
-      <Suspense fallback={<Spiner />}>
+      <Suspense
+        fallback={<Spiner height={80} width={80} containerMargin={true} />}
+      >
         <Outlet />
       </Suspense>
     </>

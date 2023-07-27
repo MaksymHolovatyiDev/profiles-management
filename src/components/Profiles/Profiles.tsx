@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ProfileContainer,
   ProfileTitle,
@@ -11,41 +11,32 @@ import {
 import Modal from 'components/Modal/Modal';
 import svg from 'Images/symbol-defs.svg';
 import ProfilesCardItem from './ProfilesCardItem';
+import { profileData } from 'Redux/services/backendTypes';
+import { backendAPI } from 'Redux/services/backendAPI';
+import { useSelector } from 'react-redux';
+import { getUserId } from 'Redux/user/userSelectors';
+import { getAllProfiles } from 'Redux/profiles/profilesSelectors';
 
 const Profiles: React.FC = () => {
+  const [profiles, setProfiles] = useState<profileData[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
-  console.log(showModal);
 
-  const a = [
-    {
-      name: 'adfs',
-      gender: 'male',
-      birthDate: 'asdf',
-      city: 'wer',
-    },
-    {
-      name: 'adfs',
-      gender: 'male',
-      birthDate: 'asdf',
-      city: 'wer',
-    },
-    ,
-    {
-      name: 'adfs',
-      gender: 'male',
-      birthDate: 'asdf',
-      city: 'wer',
-    },
-    ,
-    {
-      name: 'adfs',
-      gender: 'male',
-      birthDate: 'asdf',
-      city: 'wer',
-    },
-  ];
+  document!.body!.style!.overflow = showModal ? 'hidden' : 'auto';
 
-  const toggleModal = () => {
+  const userId = useSelector(getUserId);
+  const allProfiles = useSelector(getAllProfiles);
+  const [trigger] = backendAPI.endpoints.GetProfiles.useLazyQuery();
+
+  useEffect(() => {
+    trigger(userId);
+  }, []);
+
+  useEffect(() => {
+    setProfiles(allProfiles);
+  }, [allProfiles]);
+
+  const toggleModal = (evt: any) => {
+    evt.currentTarget.blur();
     setShowModal(prevState => !prevState);
   };
 
@@ -54,14 +45,15 @@ const Profiles: React.FC = () => {
       <ProfileContainer>
         <ProfileTitle>Profiles:</ProfileTitle>
         <ProfileCardsList>
-          {a.map((el, idx: number) => {
+          {profiles.map(el => {
             return (
-              <li key={idx}>
+              <li key={el._id}>
                 <ProfilesCardItem
                   name={el?.name ?? ''}
                   gender={el?.gender ?? ''}
-                  birthDate={el?.birthDate ?? ''}
+                  birthDate={`${el?.birthdate}` ?? ''}
                   city={el?.city ?? ''}
+                  id={el?._id ?? ''}
                 />
               </li>
             );
@@ -78,7 +70,7 @@ const Profiles: React.FC = () => {
           </li>
         </ProfileCardsList>
       </ProfileContainer>
-      {showModal && <Modal />}
+      {showModal && <Modal showModal={setShowModal} />}
     </>
   );
 };

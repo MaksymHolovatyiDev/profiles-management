@@ -5,7 +5,8 @@ import {
   mainLabelText,
   mainBackground,
   mainGray,
-  lightGray,
+  lightGreen,
+  deleteButton,
   white,
   buttonBackgroundColor,
 } from 'Theme/Theme';
@@ -19,6 +20,8 @@ export const Backdrop = styled('div')`
   width: 100%;
 
   background-color: rgba(0, 0, 0, 20%);
+
+  overflow: auto;
 `;
 
 export const ModalContainer = styled('div')`
@@ -38,6 +41,11 @@ export const ModalContainer = styled('div')`
   border-radius: 12px;
 
   transform: translate(-50%, -50%);
+
+  @media screen and (max-height: 585px) {
+    top: 0;
+    transform: translate(-50%, 0);
+  }
 `;
 
 export const ModalForm = styled(Form)`
@@ -49,7 +57,7 @@ export const ModalForm = styled(Form)`
   gap: 25px;
 `;
 
-export const inputSyles = css`
+const inputSyles = css`
   width: 100%;
 
   color: ${mainTextBlack};
@@ -170,9 +178,14 @@ export const ModalBtn = styled('button')`
 
   transition: background-color 250ms cubic-bezier(0.18, 0.75, 0.95, 0.63);
 
-  &:hover,
-  &:focus {
-    background-color: ${lightGray};
+  &:first-child:hover,
+  &:first-child:focus {
+    background-color: ${lightGreen};
+  }
+
+  &:last-child:hover,
+  &:last-child:focus {
+    background-color: ${deleteButton};
   }
 
   &:hover > svg,

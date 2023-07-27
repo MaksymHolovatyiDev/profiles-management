@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import ReactDatePicker from 'react-datepicker';
 import {
@@ -19,9 +20,43 @@ import {
 } from './Modal.styled';
 import svg from 'Images/symbol-defs.svg';
 import 'react-datepicker/dist/react-datepicker.css';
+import { backendAPI } from 'Redux/services/backendAPI';
+import { ProfileDataValue } from 'components/Types/Types';
+import { getUserId } from 'Redux/user/userSelectors';
 
-const Modal: React.FC = () => {
-  const [startDate, setStartDate] = useState<Date>();
+const Modal: React.FC<any> = ({ showModal }) => {
+  const [startDate, setStartDate] = useState<any>();
+  const [trigger, { isLoading }]: any =
+    backendAPI.endpoints.CreateProfiles.useLazyQuery();
+  const userId = useSelector(getUserId);
+
+  const handleClick = (evt: KeyboardEvent) => {
+    if (evt.code === 'Escape') {
+      showModal(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleClick);
+    return () => {
+      window.removeEventListener('keydown', handleClick);
+    };
+  }, []);
+
+  const onSubmit = async (values: ProfileDataValue) => {
+    if (!isLoading) {
+      await trigger({
+        userId,
+        data: { ...values, birthdate: Date.parse(startDate) },
+      });
+      showModal(false);
+    }
+  };
+
+  const closeModal = (evt: any) => {
+    evt.currentTarget.blur();
+    showModal(false);
+  };
 
   return (
     <Backdrop>
@@ -32,9 +67,7 @@ const Modal: React.FC = () => {
             gender: 'male',
             city: '',
           }}
-          onSubmit={(values: any) => {
-            console.log(values, startDate);
-          }}
+          onSubmit={onSubmit}
         >
           {() => (
             <ModalForm>
@@ -70,6 +103,7 @@ const Modal: React.FC = () => {
                   selected={startDate}
                   maxDate={new Date()}
                   dateFormat="dd.MM.yyyy"
+                  shouldCloseOnSelect={true}
                   customInput={<DateInput type="text" />}
                   onChange={(date: any) => {
                     setStartDate(date);
@@ -88,7 +122,7 @@ const Modal: React.FC = () => {
                     <use href={`${svg}#icon-check-1`}></use>\
                   </ModalImage>
                 </ModalBtn>
-                <ModalBtn type="button">
+                <ModalBtn type="button" onClick={closeModal}>
                   <ModalImage>
                     <use href={`${svg}#icon-close-2-1`}></use>\
                   </ModalImage>

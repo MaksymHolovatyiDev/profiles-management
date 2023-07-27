@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   MainHeader,
   UserContainer,
@@ -8,19 +8,32 @@ import {
   NavigationList,
   NavigationLink,
   NavigationImg,
+  LogoutBtn,
 } from 'components/Header/Header.styled';
 import svg from 'Images/symbol-defs.svg';
-import { getAdmin } from 'Redux/selectors';
+import { getAdmin, getUserName } from 'Redux/user/userSelectors';
+import { logOut } from 'Redux/user/userSlice';
 
 const Header: React.FC = () => {
+  const dispatch = useDispatch();
+
+  const userName = useSelector(getUserName);
   const isAdmin = useSelector(getAdmin);
+
+  const onLogout = (): void => {
+    dispatch(logOut());
+    localStorage.removeItem('user');
+  };
 
   return (
     <>
       <MainHeader>
         <UserContainer>
-          <UserAvatar src={require('Images/admin.png')} alt="User Avater" />
-          <UserName>1White</UserName>
+          <UserAvatar
+            src={require(`Images/${isAdmin ? 'admin' : 'user'}.png`)}
+            alt="User Avater"
+          />
+          <UserName>{userName}</UserName>
         </UserContainer>
 
         <nav>
@@ -54,9 +67,9 @@ const Header: React.FC = () => {
               </>
             )}
             <li>
-              <NavigationLink to="/SignIn" replace>
+              <LogoutBtn type="button" onClick={onLogout}>
                 Log out
-              </NavigationLink>
+              </LogoutBtn>
             </li>
           </NavigationList>
         </nav>

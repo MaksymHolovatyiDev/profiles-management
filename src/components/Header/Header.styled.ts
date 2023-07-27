@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { mainHoverColor, mainTextBlack } from 'Theme/Theme';
 
 export const MainHeader = styled('header')`
@@ -44,7 +44,7 @@ export const NavigationList = styled('ul')`
   }
 `;
 
-export const NavigationLink = styled(NavLink)`
+const headerNavigation = css`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,11 +64,25 @@ export const NavigationLink = styled(NavLink)`
   &:focus {
     color: ${mainHoverColor};
   }
+`;
+
+export const NavigationLink = styled(NavLink)`
+  ${headerNavigation}
 
   &:hover > svg,
   &:focus > svg {
     fill: ${mainHoverColor};
   }
+`;
+
+export const LogoutBtn = styled('button')`
+  ${headerNavigation}
+
+  background-color: transparent;
+
+  border: none;
+
+  cursor: pointer;
 `;
 
 export const NavigationImg = styled('svg')`

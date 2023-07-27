@@ -11,15 +11,25 @@ import {
   white,
 } from 'Theme/Theme';
 
-export const UserFormContainer = styled('div')`
-  width: 522px;
+const MainUserContainer = css`
+  width: 100%;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
 
-  margin: 120px auto 0;
+export const UserFormContainerSignUp = styled('div')`
+  ${MainUserContainer};
+
+  padding: 120px 0 0;
+`;
+
+export const UserFormContainerSignIn = styled('div')`
+  ${MainUserContainer};
+
+  padding: 150px 0 0;
 `;
 
 export const UserFormTitle = styled('p')`
@@ -54,6 +64,8 @@ export const UserFormField = styled(Field)`
   margin: 5px 0 25px;
 
   outline: none;
+
+  transition: color 250ms cubic-bezier(0.18, 0.75, 0.95, 0.63);
 `;
 
 export const UserFormLabel = styled('label')`
@@ -96,6 +108,10 @@ const buttonsStyles = css`
 
 export const UserFormButton = styled('button')`
   ${buttonsStyles}
+
+  &:disabled {
+    background-color: ${lightGray};
+  }
 `;
 
 export const UserFormLink = styled(NavLink)`
@@ -139,6 +155,8 @@ export const UserFormCheckboxLabel = styled('label')`
   font-weight: 400;
   font-size: 24px;
   line-height: 1.41;
+
+  cursor: pointer;
 
   & + & {
     margin-top: 15px;
