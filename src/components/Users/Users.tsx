@@ -1,64 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   UsersContainer,
-  UserDataContainer,
-  UserDataText,
   UsersTitle,
   UsersCardsList,
-  UserDataBtnsContainer,
-  UserDataBtn,
-  UserDataBtnImage,
 } from 'components/Users/Users.styled';
-import svg from 'Images/symbol-defs.svg';
-import UserModal from 'components/UsersModal/UsersModal';
 import UserCardItem from './UserCardItem';
+import { backendAPI } from 'Redux/services/backendAPI';
+import { IUser } from 'Redux/services/backendTypes';
 
 const Users: React.FC = () => {
-  const a = [
-    { name: 'qwe', email: 'aef', profiles: 1 },
-    { name: 'qwe', email: 'aef', profiles: 1 },
-    ,
-    { name: 'qwe', email: 'aef', profiles: 1 },
-    ,
-    { name: 'qwe', email: 'aef', profiles: 1 },
-    ,
-    { name: 'qwe', email: 'aef', profiles: 1 },
-  ];
+  const [usersList, setUsersList] = useState<IUser[]>([]);
+  const [trigger, { data }] = backendAPI.endpoints.GetAllUsers.useLazyQuery();
+
+  useEffect(() => {
+    trigger();
+  }, []);
+
+  useEffect(() => {
+    if (data) setUsersList(data);
+  }, [data]);
+
   return (
     <>
       <UsersContainer>
-        <UserDataContainer>
-          <UserDataText>Sup3r_puper</UserDataText>
-          <UserDataText>usermail@outlook.com</UserDataText>
-          <UserDataText>user</UserDataText>
-          <UserDataBtnsContainer>
-            <UserDataBtn type="button">
-              <UserDataBtnImage>
-                <use href={`${svg}#icon-Edit-1`}></use>
-              </UserDataBtnImage>
-            </UserDataBtn>
-            <UserDataBtn type="button">
-              <UserDataBtnImage>
-                <use href={`${svg}#icon-Delete-1`}></use>
-              </UserDataBtnImage>
-            </UserDataBtn>
-          </UserDataBtnsContainer>
-        </UserDataContainer>
-
         <UsersTitle>Users:</UsersTitle>
         <UsersCardsList>
-          {a.map(el => (
-            <li>
+          {usersList.map(el => (
+            <li key={el._id}>
               <UserCardItem
+                _id={el?._id ?? ''}
                 name={el?.name ?? ''}
                 email={el?.email ?? ''}
+                admin={el?.admin ?? ''}
                 profiles={el?.profiles ?? 0}
               />
             </li>
           ))}
         </UsersCardsList>
       </UsersContainer>
-      <UserModal />
+      
     </>
   );
 };

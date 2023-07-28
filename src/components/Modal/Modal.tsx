@@ -20,14 +20,19 @@ import {
 } from './Modal.styled';
 import svg from 'Images/symbol-defs.svg';
 import 'react-datepicker/dist/react-datepicker.css';
-import { backendAPI } from 'Redux/services/backendAPI';
 import { ProfileDataValue } from 'components/Types/Types';
 import { getUserId } from 'Redux/user/userSelectors';
 
-const Modal: React.FC<any> = ({ showModal }) => {
-  const [startDate, setStartDate] = useState<any>();
-  const [trigger, { isLoading }]: any =
-    backendAPI.endpoints.CreateProfiles.useLazyQuery();
+const Modal: React.FC<any> = ({
+  showModal,
+  APIfunction,
+  initialValues,
+  setUserId = null,
+  DateValue = null,
+  ProfileID = null,
+}) => {
+  const [startDate, setStartDate] = useState<any>(DateValue);
+  const [trigger, { isLoading }] = APIfunction();
   const userId = useSelector(getUserId);
 
   const handleClick = (evt: KeyboardEvent) => {
@@ -45,10 +50,12 @@ const Modal: React.FC<any> = ({ showModal }) => {
 
   const onSubmit = async (values: ProfileDataValue) => {
     if (!isLoading) {
-      await trigger({
-        userId,
+      const bodyData = {
+        userId: setUserId ? setUserId : userId,
         data: { ...values, birthdate: Date.parse(startDate) },
-      });
+      };
+
+      await trigger(ProfileID ? { id: ProfileID, body: bodyData } : bodyData);
       showModal(false);
     }
   };
@@ -61,14 +68,7 @@ const Modal: React.FC<any> = ({ showModal }) => {
   return (
     <Backdrop>
       <ModalContainer>
-        <Formik
-          initialValues={{
-            name: '',
-            gender: 'male',
-            city: '',
-          }}
-          onSubmit={onSubmit}
-        >
+        <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {() => (
             <ModalForm>
               <ModalLabel>
@@ -80,12 +80,7 @@ const Modal: React.FC<any> = ({ showModal }) => {
                 <ModalLabel>gender:</ModalLabel>
                 <RadioContainer>
                   <RadioLabel>
-                    <RadioInput
-                      type="radio"
-                      name="gender"
-                      value="male"
-                      checked
-                    />
+                    <RadioInput type="radio" name="gender" value="male" />
                     <CustomRadio />
                     male
                   </RadioLabel>

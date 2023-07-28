@@ -43,7 +43,7 @@ const SignIn: React.FC = () => {
     }
   }, [error]);
 
-  const onFormSubmit = (values: UserSignInData): void => {
+  const onFormSubmit = async (values: UserSignInData): Promise<void> => {
     if (values?.password?.length < 6) {
       setPasswordError(true);
       Notify.warning('Password is too short!', {
@@ -52,7 +52,7 @@ const SignIn: React.FC = () => {
       });
     } else {
       setPasswordError(false);
-      trigger(values);
+      await trigger(values);
     }
   };
 

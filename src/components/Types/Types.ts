@@ -3,12 +3,14 @@ export interface IProfileCard {
   gender: string;
   birthDate: string;
   city: string;
-  id: any;
+  id: string;
 }
 
 export interface IUserCard {
+  _id: string;
   name: string;
   email: string;
+  admin: boolean;
   profiles: number;
 }
 

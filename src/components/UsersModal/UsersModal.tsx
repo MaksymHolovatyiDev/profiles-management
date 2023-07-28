@@ -16,20 +16,33 @@ import {
 } from './UserModal.styled';
 import svg from 'Images/symbol-defs.svg';
 import 'react-datepicker/dist/react-datepicker.css';
+import { backendAPI } from 'Redux/services/backendAPI';
 
-const UserModal: React.FC = () => {
+const UserModal: React.FC<any> = ({ name, email, role, _id, showModal }) => {
+  const [trigger, { isLoading }] =
+    backendAPI.endpoints.UpdateUser.useLazyQuery();
+
+  const onSubmit = async (values: any) => {
+    if (!isLoading) {
+      await trigger({ ...values, _id });
+      showModal(false);
+    }
+  };
+
+  const closeModal = () => {
+    showModal(false);
+  };
+
   return (
     <Backdrop>
       <UserModalContainer>
         <Formik
           initialValues={{
-            name: '',
-            email: 'male',
-            role: '',
+            name,
+            email,
+            role: role ? 'admin' : 'user',
           }}
-          onSubmit={(values: any) => {
-            console.log(values);
-          }}
+          onSubmit={onSubmit}
         >
           {() => (
             <UserModalForm>
@@ -40,7 +53,7 @@ const UserModal: React.FC = () => {
 
               <UserModalLabel>
                 email:
-                <UserModalField type="emial" name="emial" required />
+                <UserModalField type="email" name="email" required />
               </UserModalLabel>
 
               <RadioWraper>
@@ -65,7 +78,7 @@ const UserModal: React.FC = () => {
                     <use href={`${svg}#icon-check-1`}></use>\
                   </UserModalImage>
                 </UserModalBtn>
-                <UserModalBtn type="button">
+                <UserModalBtn type="button" onClick={closeModal}>
                   <UserModalImage>
                     <use href={`${svg}#icon-close-2-1`}></use>\
                   </UserModalImage>

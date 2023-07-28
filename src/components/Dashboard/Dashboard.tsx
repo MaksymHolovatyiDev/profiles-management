@@ -6,16 +6,21 @@ import {
   DashboardCardText,
 } from 'components/Dashboard/Dashboard.styled';
 import { useEffect, useState } from 'react';
+import { backendAPI } from 'Redux/services/backendAPI';
+import { IDashboard } from 'Redux/services/backendTypes';
 
 const Dashboard: React.FC = () => {
-  const [dasboardData, setDashboardData] = useState<{
-    Users: number;
-    Profiles: number;
-    AdultProfiles: number;
-  }>({ Users: 10, Profiles: 25, AdultProfiles: 6 });
+  const [dasboardData, setDashboardData] = useState<IDashboard>();
+
+  const [trigger, { data }] =
+    backendAPI.endpoints.GetDashboardInfo.useLazyQuery();
 
   useEffect(() => {
-    setDashboardData({ Users: 10, Profiles: 25, AdultProfiles: 6 });
+    if (data) setDashboardData(data);
+  }, [data]);
+
+  useEffect(() => {
+    trigger();
   }, []);
 
   return (
@@ -25,19 +30,21 @@ const Dashboard: React.FC = () => {
         <li>
           <DashboardCardContainer>
             <DashboardCardText>Users:</DashboardCardText>
-            <DashboardCardText>{dasboardData.Users}</DashboardCardText>
+            <DashboardCardText>{dasboardData?.users ?? ''}</DashboardCardText>
           </DashboardCardContainer>
         </li>
         <li>
           <DashboardCardContainer>
             <DashboardCardText>Profiles:</DashboardCardText>
-            <DashboardCardText>{dasboardData.Profiles}</DashboardCardText>
+            <DashboardCardText>
+              {dasboardData?.profiles ?? ''}
+            </DashboardCardText>
           </DashboardCardContainer>
         </li>
         <li>
           <DashboardCardContainer>
             <DashboardCardText>Profiles over 18 years old:</DashboardCardText>
-            <DashboardCardText>{dasboardData.AdultProfiles}</DashboardCardText>
+            <DashboardCardText>{dasboardData?.adult ?? ''}</DashboardCardText>
           </DashboardCardContainer>
         </li>
       </DashboardCardsList>

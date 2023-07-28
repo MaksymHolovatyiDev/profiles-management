@@ -1,11 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type {
-  SignUp,
-  authRes,
-  createProfile,
-  createProfileRes,
-  profileDataRes,
-  profileData,
+  IAuthRes,
+  ISignUp,
+  IProfileDataRes,
+  ICreateProfileRes,
+  IProfileData,
+  ICreateProfile,
+  IUpdateProfile,
+  IDashboard,
+  IUser,
+  IUserUpdate,
+  IUserUpdateRes,
 } from './backendTypes';
 
 const baseQuery = fetchBaseQuery({
@@ -29,7 +34,7 @@ export const backendAPI = createApi({
   reducerPath: 'backendAPI',
   baseQuery: baseQuery,
   endpoints: builder => ({
-    SignUp: builder.query<authRes, SignUp>({
+    SignUp: builder.query<IAuthRes, ISignUp>({
       query: body => ({
         url: 'auth/signup',
         method: 'post',
@@ -38,8 +43,8 @@ export const backendAPI = createApi({
     }),
 
     SignIn: builder.query<
-      authRes,
-      Pick<SignUp, 'email' | 'password' | 'remember'>
+      IAuthRes,
+      Pick<ISignUp, 'email' | 'password' | 'remember'>
     >({
       query: body => ({
         url: 'auth/signin',
@@ -48,12 +53,12 @@ export const backendAPI = createApi({
       }),
     }),
 
-    GetProfiles: builder.query<profileDataRes, string>({
+    GetProfiles: builder.query<IProfileDataRes, string>({
       query: id => ({
         url: `profiles/${id}`,
       }),
     }),
-    CreateProfiles: builder.query<createProfileRes, createProfile>({
+    CreateProfiles: builder.query<ICreateProfileRes, ICreateProfile>({
       query: body => ({
         url: 'profiles',
         method: 'post',
@@ -61,17 +66,44 @@ export const backendAPI = createApi({
       }),
     }),
 
-    // UpdateProfile: builder.query<string, string>({
-    //   query: data => ({
-    //     url: `profiles/${data.id}`,
-    //     method: 'post',
-    //     body: data.body,
-    //   }),
-    // }),
+    UpdateProfile: builder.query<IProfileData, IUpdateProfile>({
+      query: body => ({
+        url: 'profiles',
+        method: 'put',
+        body,
+      }),
+    }),
 
-    DeleteProfile: builder.query<profileData, string>({
+    DeleteProfile: builder.query<IProfileData, string>({
       query: id => ({
         url: `profiles/${id}`,
+        method: 'delete',
+      }),
+    }),
+
+    GetDashboardInfo: builder.query<IDashboard, void>({
+      query: () => ({
+        url: 'dashboard',
+      }),
+    }),
+
+    GetAllUsers: builder.query<IUser[], void>({
+      query: () => ({
+        url: 'users',
+      }),
+    }),
+
+    UpdateUser: builder.query<IUserUpdateRes, IUserUpdate>({
+      query: body => ({
+        url: 'users',
+        method: 'put',
+        body,
+      }),
+    }),
+
+    DeleteUser: builder.query<IProfileData, string>({
+      query: id => ({
+        url: `users/${id}`,
         method: 'delete',
       }),
     }),

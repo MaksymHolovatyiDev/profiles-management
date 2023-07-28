@@ -5,9 +5,10 @@ import {
   mainLabelText,
   mainBackground,
   mainGray,
-  lightGray,
   white,
   buttonBackgroundColor,
+  lightGreen,
+  deleteButton,
 } from 'Theme/Theme';
 
 export const Backdrop = styled('div')`
@@ -38,6 +39,11 @@ export const UserModalContainer = styled('div')`
   border-radius: 12px;
 
   transform: translate(-50%, -50%);
+
+  @media screen and (max-height: 585px) {
+    top: 0;
+    transform: translate(-50%, 0);
+  }
 `;
 
 export const UserModalForm = styled(Form)`
@@ -158,9 +164,14 @@ export const UserModalBtn = styled('button')`
 
   transition: background-color 250ms cubic-bezier(0.18, 0.75, 0.95, 0.63);
 
-  &:hover,
-  &:focus {
-    background-color: ${lightGray};
+  &:first-child:hover,
+  &:first-child:focus {
+    background-color: ${lightGreen};
+  }
+
+  &:last-child:hover,
+  &:last-child:focus {
+    background-color: ${deleteButton};
   }
 
   &:hover > svg,

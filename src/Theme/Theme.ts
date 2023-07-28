@@ -10,4 +10,9 @@ export const mainHoverColor = '#a2a2a2';
 export const buttonBackgroundColor = '#eff0f6';
 export const editButton = '#624af2';
 export const deleteButton = '#eb0055';
+export const mainYellow = '#fbe106e0';
 export const white = '#ffffff';
+
+export const LightTheme = {};
+
+export const DarkTheme = {};

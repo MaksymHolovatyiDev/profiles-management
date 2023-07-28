@@ -15,6 +15,8 @@ import { backendAPI } from './services/backendAPI';
 import { userReducer } from './user/userSlice';
 import { profilesReducer } from './profiles/profilesSlice';
 import { saveTokenMiddleware } from './middlewares/saveToken';
+import { dashboardReducer } from './dashboard/dashboardSllice';
+import { usersListReducer } from './usersList/usersListSlice';
 
 const persistConfig = {
   key: 'user',
@@ -29,6 +31,8 @@ export const store = configureStore({
     [backendAPI.reducerPath]: backendAPI.reducer,
     user: persistedReducer,
     profiles: profilesReducer,
+    dashboard: dashboardReducer,
+    usersList: usersListReducer,
   },
 
   middleware: getDefaultMiddleware =>

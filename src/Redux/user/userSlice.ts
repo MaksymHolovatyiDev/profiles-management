@@ -6,12 +6,16 @@ const initialState = {
   name: '',
   admin: false,
   token: '',
+  theme: true,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    changeTheme: (state, { payload }) => {
+      state.theme = payload;
+    },
     logOut() {
       return { ...initialState };
     },
@@ -40,4 +44,4 @@ const userSlice = createSlice({
 });
 
 export const userReducer = userSlice.reducer;
-export const { logOut } = userSlice.actions;
+export const { logOut, changeTheme } = userSlice.actions;
