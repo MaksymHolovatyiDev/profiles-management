@@ -41,8 +41,6 @@ const Profiles: React.FC = () => {
   const location: any = useLocation();
   const dispatch = useDispatch();
 
-  console.log(location);
-
   const navigate = useNavigate();
   const allProfiles = useSelector(getAllProfiles);
   const userId = useSelector(getUserId);
@@ -81,7 +79,11 @@ const Profiles: React.FC = () => {
   useEffect(() => {
     if (isLogining) {
       dispatch(logined());
-      navigate('/');
+      navigate('/', { replace: true });
+      window.scrollTo(0, 0);
+    }
+    if (userListData?.userExist) {
+      window.scrollTo(0, 0);
     }
   }, []);
 

@@ -7,17 +7,35 @@ import {
 import UserCardItem from './UserCardItem';
 import { backendAPI } from 'Redux/services/backendAPI';
 import { IUser } from 'Redux/services/backendTypes';
+import { useDispatch, useSelector } from 'react-redux';
+import { getScrollPosition } from 'Redux/usersList/userListSelectors';
+import { setScrollPosition } from 'Redux/usersList/usersListSlice';
 
 const Users: React.FC = () => {
   const [usersList, setUsersList] = useState<IUser[]>([]);
+
   const [trigger, { data }] = backendAPI.endpoints.GetAllUsers.useLazyQuery();
+
+  const scrollPosition = useSelector(getScrollPosition);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     trigger();
   }, []);
 
   useEffect(() => {
-    if (data) setUsersList(data);
+    if (scrollPosition !== 0 && usersList.length !== 0) {
+      window.scrollTo(0, scrollPosition);
+      dispatch(setScrollPosition(0));
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [usersList]);
+
+  useEffect(() => {
+    if (data) {
+      setUsersList(data);
+    }
   }, [data]);
 
   return (
@@ -38,7 +56,6 @@ const Users: React.FC = () => {
           ))}
         </UsersCardsList>
       </UsersContainer>
-      
     </>
   );
 };

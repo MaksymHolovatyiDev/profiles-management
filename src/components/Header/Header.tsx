@@ -18,7 +18,7 @@ import svg from 'Images/symbol-defs.svg';
 import { getAdmin, getTheme, getUserName } from 'Redux/user/userSelectors';
 import { changeTheme, logOut } from 'Redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { resetUser } from 'Redux/usersList/usersListSlice';
+import { resetUser, setScrollPosition } from 'Redux/usersList/usersListSlice';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -40,6 +40,11 @@ const Header: React.FC = () => {
 
   const onLinkClick = (evt: any) => {
     evt.currentTarget.blur();
+  };
+
+  const onUsersLinkClick = (evt: any) => {
+    evt.currentTarget.blur();
+    dispatch(setScrollPosition(0));
   };
 
   const onLogout = (): void => {
@@ -94,7 +99,7 @@ const Header: React.FC = () => {
                   </NavigationLink>
                 </li>
                 <li>
-                  <NavigationLink to="/Users" onClick={onLinkClick}>
+                  <NavigationLink to="/Users" onClick={onUsersLinkClick}>
                     Users
                     <NavigationImg>
                       <use href={`${svg}#icon-users-1`}></use>

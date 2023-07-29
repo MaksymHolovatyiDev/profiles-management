@@ -1,6 +1,8 @@
 import React from 'react';
-import { UserCardContainer, UserCardText } from 'components/Users/Users.styled';
 import { IUserCard } from 'components/Types/Types';
+import { UserCardContainer, UserCardText } from 'components/Users/Users.styled';
+import { useDispatch } from 'react-redux';
+import { setScrollPosition } from 'Redux/usersList/usersListSlice';
 
 const UserCardItem: React.FC<IUserCard> = ({
   _id,
@@ -9,15 +11,17 @@ const UserCardItem: React.FC<IUserCard> = ({
   profiles,
   admin,
 }) => {
-  const toTop = () => {
-    window.scrollTo(0, 0);
-  };
+  const dispatch = useDispatch();
+
+  const onCardCick = () => {
+  dispatch(setScrollPosition(window.scrollY));
+}
 
   return (
     <UserCardContainer
       to="/"
-      onClick={toTop}
       state={{ _id, userData: { name, email, admin } }}
+      onClick={onCardCick}
     >
       <UserCardText>{name}</UserCardText>
       <UserCardText>{email}</UserCardText>

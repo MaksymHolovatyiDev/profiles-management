@@ -8,6 +8,7 @@ const initialState = {
   userExist: false,
   isPending: false,
   logining: false,
+  scrollPosition: 0,
 };
 
 const usersListSlice = createSlice({
@@ -17,7 +18,10 @@ const usersListSlice = createSlice({
     logined: state => {
       state.logining = false;
     },
-    updateUser: (_, { payload }) => payload,
+    setScrollPosition: (state, { payload }) => {
+      state.scrollPosition = payload;
+    },
+    updateUser: (state, { payload }) => ({ ...state, ...payload }),
     resetUser: () => initialState,
   },
   extraReducers: builder => {
@@ -39,18 +43,19 @@ const usersListSlice = createSlice({
       })
       .addMatcher(
         backendAPI.endpoints.UpdateUser.matchFulfilled,
-        (_, { payload }) => ({
-          name: payload.name,
-          email: payload.email,
-          role: payload.admin ? 'admin' : 'user',
-          userExist: true,
-          isPending: false,
-          logining: false,
-        })
+        (state, { payload }) => {
+          state.name = payload.name;
+          state.email = payload.email;
+          state.role = payload.admin ? 'admin' : 'user';
+          state.userExist = true;
+          state.isPending = false;
+          state.logining = false;
+        }
       );
   },
 });
 
-export const { updateUser, resetUser, logined } = usersListSlice.actions;
+export const { updateUser, resetUser, logined, setScrollPosition } =
+  usersListSlice.actions;
 
 export const usersListReducer = usersListSlice.reducer;
