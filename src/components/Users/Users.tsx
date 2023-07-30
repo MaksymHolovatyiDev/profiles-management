@@ -1,42 +1,41 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   UsersContainer,
   UsersTitle,
   UsersCardsList,
 } from 'components/Users/Users.styled';
+import { IUser } from 'Redux/services/backendTypes';
 import UserCardItem from './UserCardItem';
 import { backendAPI } from 'Redux/services/backendAPI';
-import { IUser } from 'Redux/services/backendTypes';
-import { useDispatch, useSelector } from 'react-redux';
-import { getScrollPosition } from 'Redux/usersList/userListSelectors';
-import { setScrollPosition } from 'Redux/usersList/usersListSlice';
+import { getScrollPosition } from 'Redux/currentUser/currentUserSelectors';
+import { setScrollPosition } from 'Redux/currentUser/currentUserSlice';
 
 const Users: React.FC = () => {
   const [usersList, setUsersList] = useState<IUser[]>([]);
 
   const [trigger, { data }] = backendAPI.endpoints.GetAllUsers.useLazyQuery();
 
-  const scrollPosition = useSelector(getScrollPosition);
   const dispatch = useDispatch();
+  const scrollPosition = useSelector(getScrollPosition);
 
   useEffect(() => {
     trigger();
   }, []);
 
   useEffect(() => {
-    if (scrollPosition !== 0 && usersList.length !== 0) {
-      window.scrollTo(0, scrollPosition);
-      dispatch(setScrollPosition(0));
-    } else {
-      window.scrollTo(0, 0);
-    }
-  }, [usersList]);
-
-  useEffect(() => {
     if (data) {
       setUsersList(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (scrollPosition !== 0 && usersList.length !== 0)
+      dispatch(setScrollPosition(0));
+
+    window.scrollTo(0, scrollPosition);
+  }, [usersList]);
 
   return (
     <>
@@ -49,7 +48,6 @@ const Users: React.FC = () => {
                 _id={el?._id ?? ''}
                 name={el?.name ?? ''}
                 email={el?.email ?? ''}
-                admin={el?.admin ?? ''}
                 profiles={el?.profiles ?? 0}
               />
             </li>

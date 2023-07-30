@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { backendAPI } from 'Redux/services/backendAPI';
 
 const initialState = {
@@ -11,8 +12,8 @@ const initialState = {
   scrollPosition: 0,
 };
 
-const usersListSlice = createSlice({
-  name: 'usersList',
+const currentUserSlice = createSlice({
+  name: 'currentUser',
   initialState,
   reducers: {
     logined: state => {
@@ -21,7 +22,6 @@ const usersListSlice = createSlice({
     setScrollPosition: (state, { payload }) => {
       state.scrollPosition = payload;
     },
-    updateUser: (state, { payload }) => ({ ...state, ...payload }),
     resetUser: () => initialState,
   },
   extraReducers: builder => {
@@ -41,21 +41,41 @@ const usersListSlice = createSlice({
       .addMatcher(backendAPI.endpoints.GetProfiles.matchRejected, state => {
         state.isPending = false;
       })
+      .addMatcher(backendAPI.endpoints.GetCurrentUser.matchPending, state => {
+        state.isPending = true;
+      })
       .addMatcher(
-        backendAPI.endpoints.UpdateUser.matchFulfilled,
+        backendAPI.endpoints.GetCurrentUser.matchFulfilled,
         (state, { payload }) => {
           state.name = payload.name;
           state.email = payload.email;
           state.role = payload.admin ? 'admin' : 'user';
           state.userExist = true;
           state.isPending = false;
-          state.logining = false;
         }
-      );
+      )
+      .addMatcher(backendAPI.endpoints.GetCurrentUser.matchRejected, state => {
+        state.isPending = false;
+      })
+      .addMatcher(backendAPI.endpoints.UpdateUser.matchPending, state => {
+        state.isPending = true;
+      })
+      .addMatcher(
+        backendAPI.endpoints.UpdateUser.matchFulfilled,
+        (state, { payload }) => {
+          state.name = payload.name;
+          state.email = payload.email;
+          state.role = payload.admin ? 'admin' : 'user';
+          state.isPending = false;
+        }
+      )
+      .addMatcher(backendAPI.endpoints.UpdateUser.matchPending, state => {
+        state.isPending = false;
+      });
   },
 });
 
-export const { updateUser, resetUser, logined, setScrollPosition } =
-  usersListSlice.actions;
+export const { resetUser, logined, setScrollPosition } =
+  currentUserSlice.actions;
 
-export const usersListReducer = usersListSlice.reducer;
+export const currentUserReducer = currentUserSlice.reducer;

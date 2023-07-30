@@ -2,6 +2,7 @@ import 'reset-css';
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
 import SignIn from 'Pages/SignIn/SignIn';
 import SignUp from 'Pages/SignUp/SignUp';
 import MainPage from 'Pages/MainPage/MainPage';
@@ -16,8 +17,8 @@ const Dashboard = lazy(() => import('components/Dashboard/Dashboard'));
 
 const App: React.FC = () => {
   const token = useSelector(getToken);
-  const isAdmin = useSelector(getAdmin);
   const theme = useSelector(getTheme);
+  const isAdmin = useSelector(getAdmin);
 
   const SelectTheme = () => (theme ? LightTheme : DarkTheme);
 

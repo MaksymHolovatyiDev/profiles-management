@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { backendAPI } from 'Redux/services/backendAPI';
 import { IProfileData } from 'Redux/services/backendTypes';
 
@@ -17,7 +18,7 @@ const profilesSlice = createSlice({
       .addMatcher(
         backendAPI.endpoints.GetProfiles.matchFulfilled,
         (state, { payload }) => {
-          state.profiles = payload.profiles;
+          state.profiles = payload;
         }
       )
       .addMatcher(

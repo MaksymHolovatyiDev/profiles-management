@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Formik } from 'formik';
+import 'react-datepicker/dist/react-datepicker.css';
 import ReactDatePicker from 'react-datepicker';
+import { Formik } from 'formik';
+import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+
+import svg from 'Images/symbol-defs.svg';
 import {
   Backdrop,
   ModalContainer,
@@ -18,10 +21,8 @@ import {
   ModalBtn,
   ModalImage,
 } from './Modal.styled';
-import svg from 'Images/symbol-defs.svg';
-import 'react-datepicker/dist/react-datepicker.css';
-import { ProfileDataValue } from 'components/Types/Types';
 import { getUserId } from 'Redux/user/userSelectors';
+import { ProfileDataValue } from 'components/Types/Types';
 
 const Modal: React.FC<any> = ({
   showModal,
@@ -32,7 +33,9 @@ const Modal: React.FC<any> = ({
   ProfileID = null,
 }) => {
   const [startDate, setStartDate] = useState<any>(DateValue);
+
   const [trigger, { isLoading }] = APIfunction();
+
   const userId = useSelector(getUserId);
 
   const handleClick = (evt: KeyboardEvent) => {
@@ -56,11 +59,12 @@ const Modal: React.FC<any> = ({
       };
 
       await trigger(ProfileID ? { id: ProfileID, body: bodyData } : bodyData);
+
       showModal(false);
     }
   };
 
-  const closeModal = (evt: any) => {
+  const closeModal = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     evt.currentTarget.blur();
     showModal(false);
   };
@@ -111,6 +115,7 @@ const Modal: React.FC<any> = ({
                 city:
                 <ModalField type="text" name="city" required />
               </ModalLabel>
+
               <ModalBtnsContainer>
                 <ModalBtn type="submit">
                   <ModalImage>

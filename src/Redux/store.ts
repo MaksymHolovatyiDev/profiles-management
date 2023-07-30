@@ -1,3 +1,4 @@
+import storage from 'redux-persist/lib/storage';
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import {
@@ -10,13 +11,13 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+
 import { backendAPI } from './services/backendAPI';
 import { userReducer } from './user/userSlice';
 import { profilesReducer } from './profiles/profilesSlice';
-import { saveTokenMiddleware } from './middlewares/saveToken';
 import { dashboardReducer } from './dashboard/dashboardSllice';
-import { usersListReducer } from './usersList/usersListSlice';
+import { currentUserReducer } from './currentUser/currentUserSlice';
+import { saveTokenMiddleware } from './middlewares/saveToken';
 
 const persistConfig = {
   key: 'user',
@@ -32,7 +33,7 @@ export const store = configureStore({
     user: persistedReducer,
     profiles: profilesReducer,
     dashboard: dashboardReducer,
-    usersList: usersListReducer,
+    currentUser: currentUserReducer,
   },
 
   middleware: getDefaultMiddleware =>

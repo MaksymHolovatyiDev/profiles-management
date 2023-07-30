@@ -1,7 +1,8 @@
 import React from 'react';
 import { ThreeDots } from 'react-loader-spinner';
-import { SpinerContainer } from './Spiner.styled';
+
 import { mainTextBlack } from 'Theme/Theme';
+import { SpinerContainer } from './Spiner.styled';
 import { ISpinerProps } from 'components/Types/Types';
 
 const Spiner: React.FC<ISpinerProps> = ({

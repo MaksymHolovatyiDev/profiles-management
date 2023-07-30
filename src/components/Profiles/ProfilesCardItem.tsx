@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ProfileCardContainer,
   ProfileCardText,
@@ -18,21 +18,26 @@ const ProfilesCardItem: React.FC<IProfileCard> = ({
   city,
   id,
 }) => {
+  const date = new Date(birthDate);
   const [showModal, setShowModal] = useState<boolean>(false);
-
-  document!.body!.style!.overflow = showModal ? 'hidden' : 'auto';
 
   const [trigger, { isLoading }] =
     backendAPI.endpoints.DeleteProfile.useLazyQuery();
 
-  const date = new Date(birthDate);
+  useEffect(() => {
+    document!.body!.style!.overflow = showModal ? 'hidden' : 'auto';
+  }, [showModal]);
 
-  const onProfileEdit = (evt: any) => {
+  const onProfileEdit = (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     evt.currentTarget.blur();
     setShowModal(true);
   };
 
-  const onProfileDelete = async (evt: any) => {
+  const onProfileDelete = async (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     evt.currentTarget.blur();
     if (!isLoading) {
       await trigger(id);
@@ -65,6 +70,7 @@ const ProfilesCardItem: React.FC<IProfileCard> = ({
           </ProfileBtn>
         </ProfileBtnsContainer>
       </ProfileCardContainer>
+
       {showModal && (
         <Modal
           showModal={setShowModal}

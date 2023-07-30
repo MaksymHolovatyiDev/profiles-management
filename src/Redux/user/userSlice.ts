@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { backendAPI } from 'Redux/services/backendAPI';
 
 const initialState = {
@@ -13,6 +14,10 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    changeMainUserData: (state, { payload }) => {
+      state.name = payload.name;
+      state.admin = payload.admin;
+    },
     changeTheme: (state, { payload }) => {
       state.theme = payload;
     },
@@ -44,4 +49,4 @@ const userSlice = createSlice({
 });
 
 export const userReducer = userSlice.reducer;
-export const { logOut, changeTheme } = userSlice.actions;
+export const { changeMainUserData, logOut, changeTheme } = userSlice.actions;

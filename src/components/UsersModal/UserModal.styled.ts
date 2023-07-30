@@ -20,6 +20,8 @@ export const Backdrop = styled('div')`
   width: 100%;
 
   background-color: rgba(0, 0, 0, 20%);
+
+  overflow: auto;
 `;
 
 export const UserModalContainer = styled('div')`

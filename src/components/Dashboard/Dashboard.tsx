@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import {
   DashboardContainer,
   DashboardTitle,
@@ -5,7 +7,6 @@ import {
   DashboardCardContainer,
   DashboardCardText,
 } from 'components/Dashboard/Dashboard.styled';
-import { useEffect, useState } from 'react';
 import { backendAPI } from 'Redux/services/backendAPI';
 import { IDashboard } from 'Redux/services/backendTypes';
 
@@ -16,12 +17,12 @@ const Dashboard: React.FC = () => {
     backendAPI.endpoints.GetDashboardInfo.useLazyQuery();
 
   useEffect(() => {
-    if (data) setDashboardData(data);
-  }, [data]);
-
-  useEffect(() => {
     trigger();
   }, []);
+
+  useEffect(() => {
+    if (data) setDashboardData(data);
+  }, [data]);
 
   return (
     <DashboardContainer>

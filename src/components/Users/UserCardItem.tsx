@@ -1,26 +1,26 @@
 import React from 'react';
-import { IUserCard } from 'components/Types/Types';
-import { UserCardContainer, UserCardText } from 'components/Users/Users.styled';
 import { useDispatch } from 'react-redux';
-import { setScrollPosition } from 'Redux/usersList/usersListSlice';
+
+import { IUserCard } from 'components/Types/Types';
+import { setScrollPosition } from 'Redux/currentUser/currentUserSlice';
+import { UserCardContainer, UserCardText } from 'components/Users/Users.styled';
 
 const UserCardItem: React.FC<IUserCard> = ({
   _id,
   name,
   email,
   profiles,
-  admin,
 }) => {
   const dispatch = useDispatch();
 
   const onCardCick = () => {
-  dispatch(setScrollPosition(window.scrollY));
-}
+    dispatch(setScrollPosition(window.scrollY));
+  };
 
   return (
     <UserCardContainer
       to="/"
-      state={{ _id, userData: { name, email, admin } }}
+      state={{ _id }}
       onClick={onCardCick}
     >
       <UserCardText>{name}</UserCardText>

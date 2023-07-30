@@ -1,5 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
+import svg from 'Images/symbol-defs.svg';
 import {
   MainHeader,
   UserContainer,
@@ -14,32 +17,34 @@ import {
   ThemeCusomInput,
   ThemeImg,
 } from 'components/Header/Header.styled';
-import svg from 'Images/symbol-defs.svg';
-import { getAdmin, getTheme, getUserName } from 'Redux/user/userSelectors';
+import {
+  resetUser,
+  setScrollPosition,
+} from 'Redux/currentUser/currentUserSlice';
 import { changeTheme, logOut } from 'Redux/user/userSlice';
-import { useNavigate } from 'react-router-dom';
-import { resetUser, setScrollPosition } from 'Redux/usersList/usersListSlice';
+import { getAdmin, getTheme, getUserName } from 'Redux/user/userSelectors';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
-
-  const userName = useSelector(getUserName);
-  const isAdmin = useSelector(getAdmin);
-  const Theme = useSelector(getTheme);
-
   const navigate = useNavigate();
+
+  const Theme = useSelector(getTheme);
+  const isAdmin = useSelector(getAdmin);
+  const userName = useSelector(getUserName);
+
+  /////////////////////////////////      ButtonsClicks    ////////////////////////////////
 
   const onThemeClick = (evt: any) => {
     dispatch(changeTheme(evt.target.checked));
   };
 
+  const onLinkClick = (evt: any) => {
+    evt.currentTarget.blur();
+  };
+
   const onProfilesLinkClick = (evt: any) => {
     evt.currentTarget.blur();
     dispatch(resetUser());
-  };
-
-  const onLinkClick = (evt: any) => {
-    evt.currentTarget.blur();
   };
 
   const onUsersLinkClick = (evt: any) => {

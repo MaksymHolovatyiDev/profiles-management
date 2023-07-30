@@ -1,4 +1,12 @@
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
+
+import svg from 'Images/symbol-defs.svg';
+import Modal from 'components/Modal/Modal';
+import Spiner from 'components/Spiner/Spiner';
+import UserModal from 'components/UsersModal/UsersModal';
+import ProfilesCardItem from './ProfilesCardItem';
 import {
   ProfileContainer,
   ProfileTitle,
@@ -7,47 +15,43 @@ import {
   ProfileAddBtn,
   CreateProfileText,
   ProfileAddBtnImg,
-  UserDataContainer,
-  UserDataText,
-  UserDataBtnsContainer,
-  UserDataBtn,
-  UserDataBtnImage,
 } from 'components/Profiles/Profiles.styled';
-import Modal from 'components/Modal/Modal';
-import svg from 'Images/symbol-defs.svg';
-import ProfilesCardItem from './ProfilesCardItem';
-import { IProfileData } from 'Redux/services/backendTypes';
-import { backendAPI } from 'Redux/services/backendAPI';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserId } from 'Redux/user/userSelectors';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { getAllProfiles } from 'Redux/profiles/profilesSelectors';
-import UserModal from 'components/UsersModal/UsersModal';
-import { logined, updateUser } from 'Redux/usersList/usersListSlice';
 import {
   getLogining,
-  getUserListData,
-} from 'Redux/usersList/userListSelectors';
-import Spiner from 'components/Spiner/Spiner';
+  getCurrentUserData,
+} from 'Redux/currentUser/currentUserSelectors';
+import { logined } from 'Redux/currentUser/currentUserSlice';
+import { getUserId } from 'Redux/user/userSelectors';
+import { backendAPI } from 'Redux/services/backendAPI';
+import { ICurentUser } from 'components/Types/Types';
+import { IProfileData } from 'Redux/services/backendTypes';
+import { getAllProfiles } from 'Redux/profiles/profilesSelectors';
+import UserDataPanel from 'components/UserDataPanel/UserDataPanel';
 
 const Profiles: React.FC = () => {
   const [profiles, setProfiles] = useState<IProfileData[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showUserModal, setShowUserModal] = useState<boolean>(false);
 
-  document!.body!.style!.overflow =
-    showModal || showUserModal ? 'hidden' : 'auto';
-
-  const location: any = useLocation();
-  const dispatch = useDispatch();
+  const [trigger] = backendAPI.endpoints.GetProfiles.useLazyQuery();
+  const [triggerGetUser] = backendAPI.endpoints.GetCurrentUser.useLazyQuery();
+  const [triggerDelete] = backendAPI.endpoints.DeleteUser.useLazyQuery();
 
   const navigate = useNavigate();
-  const allProfiles = useSelector(getAllProfiles);
+  const dispatch = useDispatch();
+
+  const location = useLocation();
+
   const userId = useSelector(getUserId);
-  const userListData = useSelector(getUserListData);
   const isLogining = useSelector(getLogining);
-  const [trigger] = backendAPI.endpoints.GetProfiles.useLazyQuery();
-  const [triggerDelete] = backendAPI.endpoints.DeleteUser.useLazyQuery();
+  const allProfiles = useSelector(getAllProfiles);
+  const {
+    name: curentUserName,
+    email: curentUserEmail,
+    role: curentUserRole,
+    isPending,
+    userExist,
+  }: ICurentUser = useSelector(getCurrentUserData);
 
   const createProfileInitialValues = {
     name: '',
@@ -55,19 +59,24 @@ const Profiles: React.FC = () => {
     city: '',
   };
 
+  /////////////////////////////////      useEffects    ////////////////////////////////
+
+  useEffect(() => {
+    if (isLogining) {
+      dispatch(logined());
+      navigate('/', { replace: true });
+    }
+
+    if (userExist || isLogining) {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
   useEffect(() => {
     if (location?.state?._id) {
-      dispatch(
-        updateUser({
-          name: location?.state?.userData?.name,
-          email: location?.state?.userData?.email,
-          role: location?.state?.userData?.admin ? 'admin' : 'user',
-          userExist: true,
-          isPending: true,
-          logining: false,
-        })
-      );
-      trigger(location?.state?._id);
+      const { _id } = location.state;
+      triggerGetUser(_id);
+      trigger(_id);
     } else {
       trigger(userId);
     }
@@ -76,24 +85,25 @@ const Profiles: React.FC = () => {
   useEffect(() => {
     setProfiles(allProfiles);
   }, [allProfiles]);
-  useEffect(() => {
-    if (isLogining) {
-      dispatch(logined());
-      navigate('/', { replace: true });
-      window.scrollTo(0, 0);
-    }
-    if (userListData?.userExist) {
-      window.scrollTo(0, 0);
-    }
-  }, []);
 
-  const toggleModal = (evt: any) => {
+  useEffect(() => {
+    document!.body!.style!.overflow =
+      showModal || showUserModal ? 'hidden' : 'auto';
+  }, [showModal, showUserModal]);
+
+  /////////////////////////////////      ButtonsClicks    ////////////////////////////////
+
+  const toggleModal = (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     evt.currentTarget.blur();
 
     setShowModal(prevState => !prevState);
   };
 
-  const toggleUserModal = (evt: any) => {
+  const toggleUserModal = (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     evt.currentTarget.blur();
     setShowUserModal(prevState => !prevState);
   };
@@ -106,29 +116,14 @@ const Profiles: React.FC = () => {
 
   return (
     <>
-      {userListData.isPending ? (
+      {isPending ? (
         <Spiner height={80} width={80} containerMargin={true} />
       ) : (
         <ProfileContainer>
-          {userListData.userExist && (
-            <UserDataContainer>
-              <UserDataText>{userListData.name}</UserDataText>
-              <UserDataText>{userListData.email}</UserDataText>
-              <UserDataText>{userListData.role}</UserDataText>
-              <UserDataBtnsContainer>
-                <UserDataBtn type="button" onClick={toggleUserModal}>
-                  <UserDataBtnImage>
-                    <use href={`${svg}#icon-Edit-1`}></use>
-                  </UserDataBtnImage>
-                </UserDataBtn>
-                <UserDataBtn type="button" onClick={deleteUser}>
-                  <UserDataBtnImage>
-                    <use href={`${svg}#icon-Delete-1`}></use>
-                  </UserDataBtnImage>
-                </UserDataBtn>
-              </UserDataBtnsContainer>
-            </UserDataContainer>
-          )}
+          <UserDataPanel
+            toggleUserModal={toggleUserModal}
+            deleteUser={deleteUser}
+          />
 
           <ProfileTitle>Profiles:</ProfileTitle>
           <ProfileCardsList>
@@ -159,15 +154,17 @@ const Profiles: React.FC = () => {
           </ProfileCardsList>
         </ProfileContainer>
       )}
+
       {showUserModal && (
         <UserModal
           _id={location?.state?._id}
-          name={location?.state?.userData?.name}
-          email={location?.state?.userData?.email}
-          role={location?.state?.userData?.admin}
+          name={curentUserName}
+          email={curentUserEmail}
+          role={curentUserRole}
           showModal={setShowUserModal}
         />
       )}
+
       {showModal && (
         <Modal
           showModal={setShowModal}

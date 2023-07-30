@@ -21,10 +21,6 @@ export interface IProfileData {
   city: string;
 }
 
-export interface IProfileDataRes {
-  profiles: IProfileData[];
-}
-
 export interface ICreateProfile {
   userID: string;
   data: IProfileData;
@@ -49,15 +45,16 @@ export interface IUser {
   _id: string;
   name: string;
   email: string;
-  admin: boolean;
   profiles: number;
 }
 
 export interface IUserUpdate {
   _id: string;
-  name: string;
-  email: string;
-  role: string;
+  body: {
+    name: string;
+    email: string;
+    admin: boolean;
+  };
 }
 
 export interface IUserUpdateRes {

@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { Notify } from 'notiflix';
+import React, { useEffect, useState } from 'react';
+
+import Spiner from 'components/Spiner/Spiner';
 import {
   UserFormContainerSignIn,
   UserFormTitle,
@@ -13,10 +15,9 @@ import {
   UserFormCheckbox,
   UserFormCustomCheckbox,
 } from 'components/UserFrom/UserFrom.styled';
-import { UserSignInData } from 'components/Types/Types';
 import { backendAPI } from 'Redux/services/backendAPI';
-import Spiner from 'components/Spiner/Spiner';
 import { mainTextBlack } from 'Theme/Theme';
+import { UserSignInData } from 'components/Types/Types';
 
 const SignIn: React.FC = () => {
   const [passwordError, setPasswordError] = useState<boolean>(false);
@@ -46,17 +47,21 @@ const SignIn: React.FC = () => {
   const onFormSubmit = async (values: UserSignInData): Promise<void> => {
     if (values?.password?.length < 6) {
       setPasswordError(true);
+
       Notify.warning('Password is too short!', {
         timeout: 5000,
         clickToClose: true,
       });
     } else {
       setPasswordError(false);
+
       await trigger(values);
     }
   };
 
-  const onButtonClick = (evt: any): void => {
+  const onButtonClick = (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
     evt.currentTarget.blur();
     evt.currentTarget.disabled = isLoading;
   };

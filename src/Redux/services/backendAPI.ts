@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 import type {
   IAuthRes,
   ISignUp,
-  IProfileDataRes,
   ICreateProfileRes,
   IProfileData,
   ICreateProfile,
@@ -53,11 +53,12 @@ export const backendAPI = createApi({
       }),
     }),
 
-    GetProfiles: builder.query<IProfileDataRes, string>({
+    GetProfiles: builder.query<IProfileData[], string>({
       query: id => ({
         url: `profiles/${id}`,
       }),
     }),
+
     CreateProfiles: builder.query<ICreateProfileRes, ICreateProfile>({
       query: body => ({
         url: 'profiles',
@@ -67,10 +68,10 @@ export const backendAPI = createApi({
     }),
 
     UpdateProfile: builder.query<IProfileData, IUpdateProfile>({
-      query: body => ({
-        url: 'profiles',
-        method: 'put',
-        body,
+      query: data => ({
+        url: `profiles/${data.id}`,
+        method: 'PATCH',
+        body: data.body,
       }),
     }),
 
@@ -93,11 +94,17 @@ export const backendAPI = createApi({
       }),
     }),
 
+    GetCurrentUser: builder.query<IUserUpdateRes, string>({
+      query: id => ({
+        url: `users/${id}`,
+      }),
+    }),
+
     UpdateUser: builder.query<IUserUpdateRes, IUserUpdate>({
-      query: body => ({
-        url: 'users',
-        method: 'put',
-        body,
+      query: data => ({
+        url: `users/${data._id}`,
+        method: 'PATCH',
+        body: data.body,
       }),
     }),
 

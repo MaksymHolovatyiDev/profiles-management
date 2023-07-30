@@ -10,7 +10,6 @@ export interface IUserCard {
   _id: string;
   name: string;
   email: string;
-  admin: boolean;
   profiles: number;
 }
 
@@ -18,6 +17,22 @@ export interface ISpinerProps {
   height: number;
   width: number;
   containerMargin: boolean;
+}
+
+export interface ICurentUser {
+  name: string;
+  email: string;
+  role: string;
+  userExist: boolean;
+  isPending: boolean;
+  logining: boolean;
+  scrollPosition: number;
+}
+
+export interface IUpdateUser {
+  name: string;
+  email: string;
+  admin: string;
 }
 
 /////////////////////////////////      Types    ////////////////////////////////

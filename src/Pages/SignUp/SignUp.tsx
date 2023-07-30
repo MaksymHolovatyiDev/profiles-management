@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { Notify } from 'notiflix';
+import React, { useEffect, useState } from 'react';
+
 import {
   UserFormContainerSignUp,
   UserFormTitle,
@@ -13,10 +14,10 @@ import {
   UserFormCheckbox,
   UserFormCustomCheckbox,
 } from 'components/UserFrom/UserFrom.styled';
-import { UserSignUpData } from 'components/Types/Types';
+import Spiner from 'components/Spiner/Spiner';
 import { backendAPI } from 'Redux/services/backendAPI';
 import { mainTextBlack } from 'Theme/Theme';
-import Spiner from 'components/Spiner/Spiner';
+import { UserSignUpData } from 'components/Types/Types';
 
 const SignUp: React.FC = () => {
   const [shotPassword, setShortPassword] = useState<boolean>(false);
@@ -28,6 +29,7 @@ const SignUp: React.FC = () => {
   useEffect(() => {
     if (error?.data?.message === 'Email already exists!') {
       setEmailError(true);
+
       Notify.warning(error?.data?.message, {
         timeout: 5000,
         clickToClose: true,
@@ -38,17 +40,21 @@ const SignUp: React.FC = () => {
   const onFormSubmit = (values: UserSignUpData): void => {
     if (values?.password?.length < 6) {
       setShortPassword(true);
+
       Notify.warning('Password is too short!', {
         timeout: 5000,
         clickToClose: true,
       });
     } else {
       setShortPassword(false);
+
       trigger(values);
     }
   };
 
-  const onButtonClick = (evt: any): void => {
+  const onButtonClick = (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
     evt.currentTarget.blur();
     evt.currentTarget.disabled = isLoading;
   };

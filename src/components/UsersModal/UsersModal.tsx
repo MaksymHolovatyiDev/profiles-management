@@ -1,4 +1,10 @@
+import 'react-datepicker/dist/react-datepicker.css';
 import { Formik } from 'formik';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import svg from 'Images/symbol-defs.svg';
 import {
   Backdrop,
   UserModalContainer,
@@ -14,17 +20,58 @@ import {
   UserModalBtn,
   UserModalImage,
 } from './UserModal.styled';
-import svg from 'Images/symbol-defs.svg';
-import 'react-datepicker/dist/react-datepicker.css';
+import { getUserId } from 'Redux/user/userSelectors';
+import { resetUser } from 'Redux/currentUser/currentUserSlice';
 import { backendAPI } from 'Redux/services/backendAPI';
+import { IUpdateUser } from 'components/Types/Types';
+import { changeMainUserData, logOut } from 'Redux/user/userSlice';
 
 const UserModal: React.FC<any> = ({ name, email, role, _id, showModal }) => {
   const [trigger, { isLoading }] =
     backendAPI.endpoints.UpdateUser.useLazyQuery();
 
-  const onSubmit = async (values: any) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const mainUserId = useSelector(getUserId);
+
+  const handleClick = (evt: KeyboardEvent) => {
+    if (evt.code === 'Escape') {
+      showModal(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleClick);
+    return () => {
+      window.removeEventListener('keydown', handleClick);
+    };
+  }, []);
+
+  const onSubmit = async (values: IUpdateUser) => {
     if (!isLoading) {
-      await trigger({ ...values, _id });
+      const { name, email, admin } = values;
+      await trigger({
+        _id,
+        body: { name, email, admin: admin === 'admin' },
+      });
+
+      if (_id === mainUserId) {
+        dispatch(
+          changeMainUserData({
+            name,
+            admin: admin === 'admin',
+          })
+        );
+        if (admin === 'user') {
+          dispatch(resetUser());
+          dispatch(logOut());
+          navigate('/');
+          localStorage.removeItem('user');
+          document!.body!.style!.overflow = 'auto';
+        }
+      }
+
       showModal(false);
     }
   };
@@ -40,7 +87,7 @@ const UserModal: React.FC<any> = ({ name, email, role, _id, showModal }) => {
           initialValues={{
             name,
             email,
-            role: role ? 'admin' : 'user',
+            admin: role === 'admin' ? 'admin' : 'user',
           }}
           onSubmit={onSubmit}
         >
@@ -60,12 +107,12 @@ const UserModal: React.FC<any> = ({ name, email, role, _id, showModal }) => {
                 <UserModalLabel>role:</UserModalLabel>
                 <RadioContainer>
                   <RadioLabel>
-                    <RadioInput type="radio" name="role" value="user" checked />
+                    <RadioInput type="radio" name="admin" value="user" />
                     <CustomRadio />
                     user
                   </RadioLabel>
                   <RadioLabel>
-                    <RadioInput type="radio" name="role" value="admin" />
+                    <RadioInput type="radio" name="admin" value="admin" />
                     <CustomRadio />
                     admin
                   </RadioLabel>

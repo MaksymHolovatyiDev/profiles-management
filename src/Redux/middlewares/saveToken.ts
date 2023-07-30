@@ -17,5 +17,6 @@ export const saveTokenMiddleware =
       store.dispatch(logOut());
       localStorage.removeItem('user');
     }
+
     return next(action);
   };
