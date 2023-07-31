@@ -1,8 +1,5 @@
 import { Formik } from 'formik';
-import { Notify } from 'notiflix';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import Spinner from 'components/Spinner/Spinner';
 import {
@@ -17,69 +14,16 @@ import {
   UserFormCheckbox,
   UserFormCustomCheckbox,
 } from 'components/UserFrom/UserFrom.styled';
-import { useSignInMutation } from 'Redux/services/backendAPI';
 import { mainTextBlack } from 'Theme/Theme';
-import { UserSignInData } from 'components/Types/Types';
-import { setUser } from 'Redux/user/userSlice';
-import { PathRoutes } from 'environment/routes';
+import { AuthorizationComponents } from 'components/Types/Types';
 
-const SignIn: React.FC = () => {
-  const [passwordError, setPasswordError] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<boolean>(false);
-
-  const [trigger, { isFetching, error, isSuccess, data }]: any =
-    useSignInMutation();
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (error?.data?.message === 'Incorrect password!') {
-      setPasswordError(true);
-      Notify.warning(error?.data?.message, {
-        timeout: 5000,
-        clickToClose: true,
-      });
-    }
-
-    if (error?.data?.message === 'User doesn`t exists!') {
-      setEmailError(true);
-      Notify.warning(error?.data?.message, {
-        timeout: 5000,
-        clickToClose: true,
-      });
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(setUser(data));
-      navigate(PathRoutes.RouteDefault);
-
-    }
-  }, [isSuccess]);
-
-  const onFormSubmit = async (values: UserSignInData): Promise<void> => {
-    if (values?.password?.length < 6) {
-      setPasswordError(true);
-
-      Notify.warning('Password is too short!', {
-        timeout: 5000,
-        clickToClose: true,
-      });
-    } else {
-      setPasswordError(false);
-      await trigger(values);
-    }
-  };
-
-  const onButtonClick = (
-    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void => {
-    evt.currentTarget.blur();
-    evt.currentTarget.disabled = isFetching;
-  };
-
+const SignIn: React.FC<AuthorizationComponents> = ({
+  emailError,
+  passwordError,
+  onFormSubmit,
+  onButtonClick,
+  isFetching,
+}) => {
   return (
     <UserFormContainerSignIn>
       <UserFormTitle>Sign in</UserFormTitle>

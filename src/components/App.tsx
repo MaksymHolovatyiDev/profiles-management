@@ -3,22 +3,20 @@ import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import SignIn from 'Pages/SignIn/SignIn';
-import SignUp from 'Pages/SignUp/SignUp';
 import MainPage from 'Pages/MainPage/MainPage';
 import { getAdmin, getTheme, getToken } from 'Redux/user/userSelectors';
 import { GlobalStyles } from 'Theme/GlobalTheme';
 import { ThemeProvider } from 'styled-components';
 import { DarkTheme, LightTheme } from 'Theme/Theme';
 import { PathRoutes } from 'environment/routes';
+import Authorization from 'Pages/Authorization/Authorization';
 
 const Profiles = lazy(() => import('components/Profiles/Profiles'));
 const Users = lazy(() => import('components/Users/Users'));
 const Dashboard = lazy(() => import('components/Dashboard/Dashboard'));
 
 const App: React.FC = () => {
-  const { RouteDashboard, RouteUsers, RouteDefault, RouteSignIn, RouteSignUp } =
-    PathRoutes;
+  const { RouteDashboard, RouteUsers, RouteDefault } = PathRoutes;
 
   const token = useSelector(getToken);
   const theme = useSelector(getTheme);
@@ -42,11 +40,7 @@ const App: React.FC = () => {
             </Route>
           </>
         ) : (
-          <>
-            <Route path={RouteSignIn} element={<SignIn />} />
-            <Route path={RouteSignUp} element={<SignUp />} />
-            <Route path="*" element={<SignIn />} />
-          </>
+          <Route path="*" element={<Authorization />} />
         )}
       </Routes>
     </ThemeProvider>

@@ -1,6 +1,5 @@
 import { Formik } from 'formik';
-import { Notify } from 'notiflix';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import {
   UserFormContainerSignUp,
@@ -15,49 +14,16 @@ import {
   UserFormCustomCheckbox,
 } from 'components/UserFrom/UserFrom.styled';
 import Spinner from 'components/Spinner/Spinner';
-import { useSignUpMutation } from 'Redux/services/backendAPI';
 import { mainTextBlack } from 'Theme/Theme';
-import { UserSignUpData } from 'components/Types/Types';
+import { AuthorizationComponents } from 'components/Types/Types';
 
-const SignUp: React.FC = () => {
-  const [shotPassword, setShortPassword] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<boolean>(false);
-
-  const [trigger, { isLoading, error }]: any = useSignUpMutation();
-
-  useEffect(() => {
-    if (error?.data?.message === 'Email already exists!') {
-      setEmailError(true);
-
-      Notify.warning(error?.data?.message, {
-        timeout: 5000,
-        clickToClose: true,
-      });
-    }
-  }, [error]);
-
-  const onFormSubmit = (values: UserSignUpData): void => {
-    if (values?.password?.length < 6) {
-      setShortPassword(true);
-
-      Notify.warning('Password is too short!', {
-        timeout: 5000,
-        clickToClose: true,
-      });
-    } else {
-      setShortPassword(false);
-
-      trigger(values);
-    }
-  };
-
-  const onButtonClick = (
-    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void => {
-    evt.currentTarget.blur();
-    evt.currentTarget.disabled = isLoading;
-  };
-
+const SignUp: React.FC<AuthorizationComponents> = ({
+  emailError,
+  passwordError,
+  onFormSubmit,
+  onButtonClick,
+  isFetching,
+}) => {
   return (
     <UserFormContainerSignUp>
       <UserFormTitle>Create your account</UserFormTitle>
@@ -90,7 +56,7 @@ const SignUp: React.FC = () => {
             <UserFormLabel htmlFor="UserPassword">Password</UserFormLabel>
             <UserFormField
               style={{
-                borderColor: shotPassword ? 'red' : mainTextBlack,
+                borderColor: passwordError ? 'red' : mainTextBlack,
               }}
               type="password"
               id="UserPassword"
@@ -125,7 +91,7 @@ const SignUp: React.FC = () => {
               type="submit"
               onClick={onButtonClick}
             >
-              {isLoading ? (
+              {isFetching ? (
                 <Spinner height={30} width={40} containerMargin={false} />
               ) : (
                 'Sign Up'

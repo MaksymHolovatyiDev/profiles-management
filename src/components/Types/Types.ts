@@ -32,6 +32,14 @@ export interface UpdateUser {
   admin: string;
 }
 
+export interface AuthorizationComponents {
+  emailError: boolean;
+  passwordError: boolean;
+  onFormSubmit: any;
+  onButtonClick: any;
+  isFetching: boolean;
+}
+
 /////////////////////////////////      Types    ////////////////////////////////
 
 export type UserSignUpData = {

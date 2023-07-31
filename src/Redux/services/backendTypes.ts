@@ -1,9 +1,17 @@
-export interface AuthReq {
-  name: string;
+interface SignInBody {
   email: string;
   password: string;
-  admin: boolean;
   remember: boolean;
+}
+
+interface SignUpBody extends SignInBody {
+  name: string;
+  admin: boolean;
+}
+
+export interface AuthReq {
+  route: string;
+  body: SignInBody | SignUpBody;
 }
 
 export interface AuthRes {
