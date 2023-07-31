@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 
 import svg from 'Images/symbol-defs.svg';
@@ -17,19 +17,13 @@ import {
   CreateProfileText,
   ProfileAddBtnImg,
 } from 'components/Profiles/Profiles.styled';
-import {
-  getLogining,
-  getCurrentUserData,
-} from 'Redux/currentUser/currentUserSelectors';
-import { logined } from 'Redux/currentUser/currentUserSlice';
+import { getCurrentUserData } from 'Redux/currentUser/currentUserSelectors';
 import { getUserId } from 'Redux/user/userSelectors';
 import {
   backendAPI,
   useCreateProfilesMutation,
   useDeleteUserMutation,
-  useGetProfilesQuery,
 } from 'Redux/services/backendAPI';
-import { PathRoutes } from 'environment/routes';
 import { CurrentUser } from 'components/Types/Types';
 import { getAllProfiles } from 'Redux/profiles/profilesSelectors';
 
@@ -39,17 +33,13 @@ const Profiles: React.FC = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const userId = useSelector(getUserId);
-  const isLogining = useSelector(getLogining);
   const profiles = useSelector(getAllProfiles);
   const {
-    name: curentUserName,
-    email: curentUserEmail,
-    role: curentUserRole,
-    isPending,
-    userExist,
+    name: currentUserName,
+    email: currentUserEmail,
+    role: currentUserRole,
   }: CurrentUser = useSelector(getCurrentUserData);
 
   const createProfileInitialValues = {
@@ -58,24 +48,20 @@ const Profiles: React.FC = () => {
     city: '',
   };
 
-  useGetProfilesQuery(location?.state?._id ? location?.state?._id : userId);
   const [triggerDelete] = useDeleteUserMutation();
+  const [triggerGetProfiles, { isFetching }] =
+    backendAPI.endpoints.GetProfiles.useLazyQuery();
   const [triggerGetUser] = backendAPI.endpoints.GetCurrentUser.useLazyQuery();
 
   /////////////////////////////////      useEffects    ////////////////////////////////
-
   useEffect(() => {
-    if (isLogining) {
-      dispatch(logined());
-      navigate(PathRoutes.RouteDefault, { replace: true });
-    }
-
-    if (userExist || isLogining) {
+    if (currentUserName) {
       window.scrollTo(0, 0);
     }
-  }, []);
+  }, [currentUserName]);
 
   useEffect(() => {
+    triggerGetProfiles(location?.state?._id ? location?.state?._id : userId);
     if (location?.state?._id) triggerGetUser(location?.state?._id);
   }, [location.state]);
 
@@ -109,7 +95,7 @@ const Profiles: React.FC = () => {
 
   return (
     <>
-      {isPending ? (
+      {isFetching ? (
         <Spinner height={80} width={80} containerMargin={true} />
       ) : (
         <ProfileContainer>
@@ -151,9 +137,9 @@ const Profiles: React.FC = () => {
       {showUserModal && (
         <UserModal
           _id={location?.state?._id}
-          name={curentUserName}
-          email={curentUserEmail}
-          role={curentUserRole}
+          name={currentUserName}
+          email={currentUserEmail}
+          role={currentUserRole}
           showModal={setShowUserModal}
         />
       )}

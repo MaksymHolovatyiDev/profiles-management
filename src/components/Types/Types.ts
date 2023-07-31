@@ -23,9 +23,6 @@ export interface CurrentUser {
   name: string;
   email: string;
   role: string;
-  userExist: boolean;
-  isPending: boolean;
-  logining: boolean;
   scrollPosition: number;
 }
 

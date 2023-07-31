@@ -123,10 +123,9 @@ export const {
   useGetAllUsersQuery,
   useSignInMutation,
   useSignUpMutation,
-  useGetProfilesQuery,
   useCreateProfilesMutation,
   useUpdateProfileMutation,
   useDeleteProfileMutation,
   useUpdateUserMutation,
-  useDeleteUserMutation
+  useDeleteUserMutation,
 } = backendAPI;

@@ -13,12 +13,11 @@ import { CurrentUser } from 'components/Types/Types';
 import { getCurrentUserData } from 'Redux/currentUser/currentUserSelectors';
 
 const UserDataPanel: React.FC<any> = ({ toggleUserModal, deleteUser }) => {
-  const { name, email, role, userExist }: CurrentUser =
-    useSelector(getCurrentUserData);
+  const { name, email, role }: CurrentUser = useSelector(getCurrentUserData);
 
   return (
     <>
-      {userExist && (
+      {name && (
         <UserDataContainer>
           <UserDataText>{name}</UserDataText>
           <UserDataText>{email}</UserDataText>

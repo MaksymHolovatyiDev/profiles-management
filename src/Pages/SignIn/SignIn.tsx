@@ -1,5 +1,7 @@
 import { Formik } from 'formik';
 import { Notify } from 'notiflix';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 import Spinner from 'components/Spinner/Spinner';
@@ -18,12 +20,18 @@ import {
 import { useSignInMutation } from 'Redux/services/backendAPI';
 import { mainTextBlack } from 'Theme/Theme';
 import { UserSignInData } from 'components/Types/Types';
+import { setUser } from 'Redux/user/userSlice';
+import { PathRoutes } from 'environment/routes';
 
 const SignIn: React.FC = () => {
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
 
-  const [trigger, { isLoading, error }]: any = useSignInMutation();
+  const [trigger, { isFetching, error, isSuccess, data }]: any =
+    useSignInMutation();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (error?.data?.message === 'Incorrect password!') {
@@ -43,6 +51,14 @@ const SignIn: React.FC = () => {
     }
   }, [error]);
 
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setUser(data));
+      navigate(PathRoutes.RouteDefault);
+
+    }
+  }, [isSuccess]);
+
   const onFormSubmit = async (values: UserSignInData): Promise<void> => {
     if (values?.password?.length < 6) {
       setPasswordError(true);
@@ -53,7 +69,6 @@ const SignIn: React.FC = () => {
       });
     } else {
       setPasswordError(false);
-
       await trigger(values);
     }
   };
@@ -62,7 +77,7 @@ const SignIn: React.FC = () => {
     evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
     evt.currentTarget.blur();
-    evt.currentTarget.disabled = isLoading;
+    evt.currentTarget.disabled = isFetching;
   };
 
   return (
@@ -112,7 +127,7 @@ const SignIn: React.FC = () => {
               type="submit"
               onClick={onButtonClick}
             >
-              {isLoading ? (
+              {isFetching ? (
                 <Spinner height={30} width={40} containerMargin={false} />
               ) : (
                 'Sign In'
