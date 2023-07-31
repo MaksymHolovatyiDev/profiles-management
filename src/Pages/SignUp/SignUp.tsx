@@ -14,8 +14,8 @@ import {
   UserFormCheckbox,
   UserFormCustomCheckbox,
 } from 'components/UserFrom/UserFrom.styled';
-import Spiner from 'components/Spiner/Spiner';
-import { backendAPI } from 'Redux/services/backendAPI';
+import Spinner from 'components/Spinner/Spinner';
+import { useSignUpMutation } from 'Redux/services/backendAPI';
 import { mainTextBlack } from 'Theme/Theme';
 import { UserSignUpData } from 'components/Types/Types';
 
@@ -23,8 +23,7 @@ const SignUp: React.FC = () => {
   const [shotPassword, setShortPassword] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
 
-  const [trigger, { isLoading, error }]: any =
-    backendAPI.endpoints.SignUp.useLazyQuery();
+  const [trigger, { isLoading, error }]: any = useSignUpMutation();
 
   useEffect(() => {
     if (error?.data?.message === 'Email already exists!') {
@@ -127,7 +126,7 @@ const SignUp: React.FC = () => {
               onClick={onButtonClick}
             >
               {isLoading ? (
-                <Spiner height={30} width={40} containerMargin={false} />
+                <Spinner height={30} width={40} containerMargin={false} />
               ) : (
                 'Sign Up'
               )}

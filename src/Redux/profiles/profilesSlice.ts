@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { backendAPI } from 'Redux/services/backendAPI';
-import { IProfileData } from 'Redux/services/backendTypes';
+import { ProfileDataRes } from 'Redux/services/backendTypes';
 
 const initialState: {
-  profiles: IProfileData[];
+  profiles: ProfileDataRes[];
 } = { profiles: [] };
 
 const profilesSlice = createSlice({
@@ -24,16 +24,13 @@ const profilesSlice = createSlice({
       .addMatcher(
         backendAPI.endpoints.CreateProfiles.matchFulfilled,
         (state, { payload }) => {
-          state.profiles = [
-            ...state.profiles,
-            { ...payload, birthdate: new Date(payload.birthdate).toString() },
-          ];
+          state.profiles = [...state.profiles, payload];
         }
       )
       .addMatcher(
         backendAPI.endpoints.UpdateProfile.matchFulfilled,
         (state, { payload }) => {
-          state.profiles = state.profiles.map((el: IProfileData) => {
+          state.profiles = state.profiles.map((el: ProfileDataRes) => {
             if (el._id !== payload._id) {
               return el;
             }

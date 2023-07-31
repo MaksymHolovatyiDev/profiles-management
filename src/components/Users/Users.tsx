@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -6,43 +6,30 @@ import {
   UsersTitle,
   UsersCardsList,
 } from 'components/Users/Users.styled';
-import { IUser } from 'Redux/services/backendTypes';
 import UserCardItem from './UserCardItem';
-import { backendAPI } from 'Redux/services/backendAPI';
 import { getScrollPosition } from 'Redux/currentUser/currentUserSelectors';
 import { setScrollPosition } from 'Redux/currentUser/currentUserSlice';
+import { useGetAllUsersQuery } from 'Redux/services/backendAPI';
 
 const Users: React.FC = () => {
-  const [usersList, setUsersList] = useState<IUser[]>([]);
-
-  const [trigger, { data }] = backendAPI.endpoints.GetAllUsers.useLazyQuery();
+  const { data } = useGetAllUsersQuery();
 
   const dispatch = useDispatch();
   const scrollPosition = useSelector(getScrollPosition);
 
   useEffect(() => {
-    trigger();
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      setUsersList(data);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (scrollPosition !== 0 && usersList.length !== 0)
+    if (scrollPosition !== 0 && data?.length !== 0)
       dispatch(setScrollPosition(0));
 
     window.scrollTo(0, scrollPosition);
-  }, [usersList]);
+  }, []);
 
   return (
     <>
       <UsersContainer>
         <UsersTitle>Users:</UsersTitle>
         <UsersCardsList>
-          {usersList.map(el => (
+          {data?.map(el => (
             <li key={el._id}>
               <UserCardItem
                 _id={el?._id ?? ''}

@@ -15,7 +15,6 @@ import {
 import { backendAPI } from './services/backendAPI';
 import { userReducer } from './user/userSlice';
 import { profilesReducer } from './profiles/profilesSlice';
-import { dashboardReducer } from './dashboard/dashboardSllice';
 import { currentUserReducer } from './currentUser/currentUserSlice';
 import { saveTokenMiddleware } from './middlewares/saveToken';
 
@@ -32,7 +31,6 @@ export const store = configureStore({
     [backendAPI.reducerPath]: backendAPI.reducer,
     user: persistedReducer,
     profiles: profilesReducer,
-    dashboard: dashboardReducer,
     currentUser: currentUserReducer,
   },
 

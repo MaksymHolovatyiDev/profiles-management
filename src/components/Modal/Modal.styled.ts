@@ -94,7 +94,7 @@ export const ModalLabel = styled('label')`
   line-height: 1.5;
 `;
 
-export const RadioWraper = styled('div')`
+export const RadioWrapper = styled('div')`
   width: 100%;
 `;
 

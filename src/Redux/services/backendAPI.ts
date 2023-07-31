@@ -1,20 +1,21 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import type {
-  IAuthRes,
-  ISignUp,
-  ICreateProfileRes,
-  IProfileData,
-  ICreateProfile,
-  IUpdateProfile,
-  IDashboard,
-  IUser,
-  IUserUpdate,
-  IUserUpdateRes,
+  AuthRes,
+  AuthReq,
+  CreateProfileRes,
+  ProfileDataRes,
+  CreateProfile,
+  UpdateProfileReq,
+  DashboardRes,
+  GetUsersRes,
+  UserUpdateReq,
+  UserUpdateRes,
 } from './backendTypes';
+import { baseUrl } from 'environment/variables';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5000/api/',
+  baseUrl,
   prepareHeaders: headers => {
     if (!headers.get('Authorization')) {
       const userData = localStorage.getItem('user');
@@ -34,40 +35,40 @@ export const backendAPI = createApi({
   reducerPath: 'backendAPI',
   baseQuery: baseQuery,
   endpoints: builder => ({
-    SignUp: builder.query<IAuthRes, ISignUp>({
+    SignUp: builder.mutation<AuthRes, AuthReq>({
       query: body => ({
         url: 'auth/signup',
-        method: 'post',
+        method: 'POST',
         body,
       }),
     }),
 
-    SignIn: builder.query<
-      IAuthRes,
-      Pick<ISignUp, 'email' | 'password' | 'remember'>
+    SignIn: builder.mutation<
+      AuthRes,
+      Pick<AuthReq, 'email' | 'password' | 'remember'>
     >({
       query: body => ({
         url: 'auth/signin',
-        method: 'post',
+        method: 'POST',
         body,
       }),
     }),
 
-    GetProfiles: builder.query<IProfileData[], string>({
+    GetProfiles: builder.query<ProfileDataRes[], string>({
       query: id => ({
         url: `profiles/${id}`,
       }),
     }),
 
-    CreateProfiles: builder.query<ICreateProfileRes, ICreateProfile>({
+    CreateProfiles: builder.mutation<CreateProfileRes, CreateProfile>({
       query: body => ({
         url: 'profiles',
-        method: 'post',
+        method: 'POST',
         body,
       }),
     }),
 
-    UpdateProfile: builder.query<IProfileData, IUpdateProfile>({
+    UpdateProfile: builder.mutation<ProfileDataRes, UpdateProfileReq>({
       query: data => ({
         url: `profiles/${data.id}`,
         method: 'PATCH',
@@ -75,32 +76,32 @@ export const backendAPI = createApi({
       }),
     }),
 
-    DeleteProfile: builder.query<IProfileData, string>({
+    DeleteProfile: builder.mutation<ProfileDataRes, string>({
       query: id => ({
         url: `profiles/${id}`,
-        method: 'delete',
+        method: 'DELETE',
       }),
     }),
 
-    GetDashboardInfo: builder.query<IDashboard, void>({
+    GetDashboardInfo: builder.query<DashboardRes, void>({
       query: () => ({
         url: 'dashboard',
       }),
     }),
 
-    GetAllUsers: builder.query<IUser[], void>({
+    GetAllUsers: builder.query<GetUsersRes[], void>({
       query: () => ({
         url: 'users',
       }),
     }),
 
-    GetCurrentUser: builder.query<IUserUpdateRes, string>({
+    GetCurrentUser: builder.query<UserUpdateRes, string>({
       query: id => ({
         url: `users/${id}`,
       }),
     }),
 
-    UpdateUser: builder.query<IUserUpdateRes, IUserUpdate>({
+    UpdateUser: builder.mutation<UserUpdateRes, UserUpdateReq>({
       query: data => ({
         url: `users/${data._id}`,
         method: 'PATCH',
@@ -108,13 +109,24 @@ export const backendAPI = createApi({
       }),
     }),
 
-    DeleteUser: builder.query<IProfileData, string>({
+    DeleteUser: builder.mutation<ProfileDataRes, string>({
       query: id => ({
         url: `users/${id}`,
-        method: 'delete',
+        method: 'DELETE',
       }),
     }),
   }),
 });
 
-export const { useGetProfilesQuery } = backendAPI;
+export const {
+  useGetDashboardInfoQuery,
+  useGetAllUsersQuery,
+  useSignInMutation,
+  useSignUpMutation,
+  useGetProfilesQuery,
+  useCreateProfilesMutation,
+  useUpdateProfileMutation,
+  useDeleteProfileMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation
+} = backendAPI;

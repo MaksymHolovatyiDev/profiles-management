@@ -6,12 +6,15 @@ import {
   ProfileBtn,
   ProfileBtnImg,
 } from 'components/Profiles/Profiles.styled';
-import { IProfileCard } from 'components/Types/Types';
+import { ProfileCard } from 'components/Types/Types';
 import svg from 'Images/symbol-defs.svg';
-import { backendAPI } from 'Redux/services/backendAPI';
+import {
+  useDeleteProfileMutation,
+  useUpdateProfileMutation,
+} from 'Redux/services/backendAPI';
 import Modal from 'components/Modal/Modal';
 
-const ProfilesCardItem: React.FC<IProfileCard> = ({
+const ProfilesCardItem: React.FC<ProfileCard> = ({
   name,
   gender,
   birthDate,
@@ -21,8 +24,7 @@ const ProfilesCardItem: React.FC<IProfileCard> = ({
   const date = new Date(birthDate);
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const [trigger, { isLoading }] =
-    backendAPI.endpoints.DeleteProfile.useLazyQuery();
+  const [trigger, { isLoading }] = useDeleteProfileMutation();
 
   useEffect(() => {
     document!.body!.style!.overflow = showModal ? 'hidden' : 'auto';
@@ -74,7 +76,7 @@ const ProfilesCardItem: React.FC<IProfileCard> = ({
       {showModal && (
         <Modal
           showModal={setShowModal}
-          APIfunction={backendAPI.endpoints.UpdateProfile.useLazyQuery}
+          APIfunction={useUpdateProfileMutation}
           initialValues={{ name, gender, city }}
           DateValue={date}
           ProfileID={id}

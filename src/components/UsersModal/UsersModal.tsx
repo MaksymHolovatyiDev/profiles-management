@@ -11,7 +11,7 @@ import {
   UserModalForm,
   UserModalField,
   UserModalLabel,
-  RadioWraper,
+  RadioWrapper,
   RadioContainer,
   RadioLabel,
   RadioInput,
@@ -22,13 +22,13 @@ import {
 } from './UserModal.styled';
 import { getUserId } from 'Redux/user/userSelectors';
 import { resetUser } from 'Redux/currentUser/currentUserSlice';
-import { backendAPI } from 'Redux/services/backendAPI';
-import { IUpdateUser } from 'components/Types/Types';
+import { useUpdateUserMutation } from 'Redux/services/backendAPI';
+import { UpdateUser } from 'components/Types/Types';
 import { changeMainUserData, logOut } from 'Redux/user/userSlice';
+import { PathRoutes } from 'environment/routes';
 
 const UserModal: React.FC<any> = ({ name, email, role, _id, showModal }) => {
-  const [trigger, { isLoading }] =
-    backendAPI.endpoints.UpdateUser.useLazyQuery();
+  const [trigger, { isLoading }] = useUpdateUserMutation();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const UserModal: React.FC<any> = ({ name, email, role, _id, showModal }) => {
     };
   }, []);
 
-  const onSubmit = async (values: IUpdateUser) => {
+  const onSubmit = async (values: UpdateUser) => {
     if (!isLoading) {
       const { name, email, admin } = values;
       await trigger({
@@ -66,7 +66,7 @@ const UserModal: React.FC<any> = ({ name, email, role, _id, showModal }) => {
         if (admin === 'user') {
           dispatch(resetUser());
           dispatch(logOut());
-          navigate('/');
+          navigate(PathRoutes.RouteDefault);
           localStorage.removeItem('user');
           document!.body!.style!.overflow = 'auto';
         }
@@ -103,7 +103,7 @@ const UserModal: React.FC<any> = ({ name, email, role, _id, showModal }) => {
                 <UserModalField type="email" name="email" required />
               </UserModalLabel>
 
-              <RadioWraper>
+              <RadioWrapper>
                 <UserModalLabel>role:</UserModalLabel>
                 <RadioContainer>
                   <RadioLabel>
@@ -117,7 +117,7 @@ const UserModal: React.FC<any> = ({ name, email, role, _id, showModal }) => {
                     admin
                   </RadioLabel>
                 </RadioContainer>
-              </RadioWraper>
+              </RadioWrapper>
 
               <UserModalBtnsContainer>
                 <UserModalBtn type="submit">

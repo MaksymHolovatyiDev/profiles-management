@@ -21,10 +21,13 @@ import {
   resetUser,
   setScrollPosition,
 } from 'Redux/currentUser/currentUserSlice';
+import { PathRoutes } from 'environment/routes';
 import { changeTheme, logOut } from 'Redux/user/userSlice';
 import { getAdmin, getTheme, getUserName } from 'Redux/user/userSelectors';
 
 const Header: React.FC = () => {
+  const { RouteDashboard, RouteUsers, RouteDefault } = PathRoutes;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -55,7 +58,7 @@ const Header: React.FC = () => {
   const onLogout = (): void => {
     dispatch(resetUser());
     dispatch(logOut());
-    navigate('/');
+    navigate(RouteDefault);
     localStorage.removeItem('user');
   };
 
@@ -88,7 +91,10 @@ const Header: React.FC = () => {
             {isAdmin && (
               <>
                 <li>
-                  <NavigationLink to="/" onClick={onProfilesLinkClick}>
+                  <NavigationLink
+                    to={RouteDefault}
+                    onClick={onProfilesLinkClick}
+                  >
                     Profiles
                     <NavigationImg>
                       <use href={`${svg}#icon-person_pin_circle-1`}></use>
@@ -96,7 +102,7 @@ const Header: React.FC = () => {
                   </NavigationLink>
                 </li>
                 <li>
-                  <NavigationLink to="/Dashboard" onClick={onLinkClick}>
+                  <NavigationLink to={RouteDashboard} onClick={onLinkClick}>
                     DashBoard
                     <NavigationImg>
                       <use href={`${svg}#icon-dashboard-1`}></use>
@@ -104,7 +110,7 @@ const Header: React.FC = () => {
                   </NavigationLink>
                 </li>
                 <li>
-                  <NavigationLink to="/Users" onClick={onUsersLinkClick}>
+                  <NavigationLink to={RouteUsers} onClick={onUsersLinkClick}>
                     Users
                     <NavigationImg>
                       <use href={`${svg}#icon-users-1`}></use>

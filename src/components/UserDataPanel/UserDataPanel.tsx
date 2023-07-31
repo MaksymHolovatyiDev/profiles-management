@@ -9,11 +9,11 @@ import {
   UserDataBtn,
   UserDataBtnImage,
 } from './UserDataPanel.styled';
-import { ICurentUser } from 'components/Types/Types';
+import { CurrentUser } from 'components/Types/Types';
 import { getCurrentUserData } from 'Redux/currentUser/currentUserSelectors';
 
 const UserDataPanel: React.FC<any> = ({ toggleUserModal, deleteUser }) => {
-  const { name, email, role, userExist }: ICurentUser =
+  const { name, email, role, userExist }: CurrentUser =
     useSelector(getCurrentUserData);
 
   return (

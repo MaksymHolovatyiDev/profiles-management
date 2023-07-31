@@ -2,16 +2,16 @@ import React from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 
 import { mainTextBlack } from 'Theme/Theme';
-import { SpinerContainer } from './Spiner.styled';
-import { ISpinerProps } from 'components/Types/Types';
+import { SpinnerContainer } from './Spinner.styled';
+import { SpinnerProps } from 'components/Types/Types';
 
-const Spiner: React.FC<ISpinerProps> = ({
+const Spinner: React.FC<SpinnerProps> = ({
   height,
   width,
   containerMargin = false,
 }) => {
   return (
-    <SpinerContainer style={{ marginTop: containerMargin ? '154px' : 0 }}>
+    <SpinnerContainer style={{ marginTop: containerMargin ? '154px' : 0 }}>
       <ThreeDots
         height={`${height}`}
         width={`${width}`}
@@ -19,8 +19,8 @@ const Spiner: React.FC<ISpinerProps> = ({
         color={mainTextBlack}
         ariaLabel="three-dots-loading"
       />
-    </SpinerContainer>
+    </SpinnerContainer>
   );
 };
 
-export default Spiner;
+export default Spinner;

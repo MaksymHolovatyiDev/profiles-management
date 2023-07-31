@@ -2,7 +2,7 @@ import { Formik } from 'formik';
 import { Notify } from 'notiflix';
 import React, { useEffect, useState } from 'react';
 
-import Spiner from 'components/Spiner/Spiner';
+import Spinner from 'components/Spinner/Spinner';
 import {
   UserFormContainerSignIn,
   UserFormTitle,
@@ -15,7 +15,7 @@ import {
   UserFormCheckbox,
   UserFormCustomCheckbox,
 } from 'components/UserFrom/UserFrom.styled';
-import { backendAPI } from 'Redux/services/backendAPI';
+import { useSignInMutation } from 'Redux/services/backendAPI';
 import { mainTextBlack } from 'Theme/Theme';
 import { UserSignInData } from 'components/Types/Types';
 
@@ -23,8 +23,7 @@ const SignIn: React.FC = () => {
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<boolean>(false);
 
-  const [trigger, { isLoading, error }]: any =
-    backendAPI.endpoints.SignIn.useLazyQuery();
+  const [trigger, { isLoading, error }]: any = useSignInMutation();
 
   useEffect(() => {
     if (error?.data?.message === 'Incorrect password!') {
@@ -114,7 +113,7 @@ const SignIn: React.FC = () => {
               onClick={onButtonClick}
             >
               {isLoading ? (
-                <Spiner height={30} width={40} containerMargin={false} />
+                <Spinner height={30} width={40} containerMargin={false} />
               ) : (
                 'Sign In'
               )}

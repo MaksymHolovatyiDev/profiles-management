@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const SpinerContainer = styled('div')`
+export const SpinnerContainer = styled('div')`
   width: 100%;
 
   display: flex;

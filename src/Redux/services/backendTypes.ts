@@ -1,4 +1,4 @@
-export interface ISignUp {
+export interface AuthReq {
   name: string;
   email: string;
   password: string;
@@ -6,14 +6,14 @@ export interface ISignUp {
   remember: boolean;
 }
 
-export interface IAuthRes {
+export interface AuthRes {
   _id: any;
   name: string;
   token: string;
   admin: boolean;
 }
 
-export interface IProfileData {
+export interface ProfileDataRes {
   _id: any;
   name: string;
   gender: string;
@@ -21,34 +21,34 @@ export interface IProfileData {
   city: string;
 }
 
-export interface ICreateProfile {
+export interface CreateProfile {
   userID: string;
-  data: IProfileData;
+  data: ProfileDataRes;
 }
 
-export interface IUpdateProfile extends ICreateProfile {
+export interface UpdateProfileReq extends CreateProfile {
   id: string;
-  body: ICreateProfile;
+  body: CreateProfile;
 }
 
-export interface ICreateProfileRes extends IProfileData {
+export interface CreateProfileRes extends ProfileDataRes {
   id: string;
 }
 
-export interface IDashboard {
+export interface DashboardRes {
   users: number;
   profiles: number;
   adult: number;
 }
 
-export interface IUser {
+export interface GetUsersRes {
   _id: string;
   name: string;
   email: string;
   profiles: number;
 }
 
-export interface IUserUpdate {
+export interface UserUpdateReq {
   _id: string;
   body: {
     name: string;
@@ -57,7 +57,7 @@ export interface IUserUpdate {
   };
 }
 
-export interface IUserUpdateRes {
+export interface UserUpdateRes {
   _id: string;
   name: string;
   email: string;

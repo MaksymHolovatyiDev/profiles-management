@@ -12,7 +12,7 @@ import {
   ModalField,
   DateInput,
   ModalLabel,
-  RadioWraper,
+  RadioWrapper,
   RadioContainer,
   RadioLabel,
   RadioInput,
@@ -58,7 +58,9 @@ const Modal: React.FC<any> = ({
         data: { ...values, birthdate: Date.parse(startDate) },
       };
 
-      await trigger(ProfileID ? { id: ProfileID, body: bodyData } : bodyData);
+      console.log(
+        await trigger(ProfileID ? { id: ProfileID, body: bodyData } : bodyData)
+      );
 
       showModal(false);
     }
@@ -80,7 +82,7 @@ const Modal: React.FC<any> = ({
                 <ModalField type="text" name="name" required />
               </ModalLabel>
 
-              <RadioWraper>
+              <RadioWrapper>
                 <ModalLabel>gender:</ModalLabel>
                 <RadioContainer>
                   <RadioLabel>
@@ -94,7 +96,7 @@ const Modal: React.FC<any> = ({
                     female
                   </RadioLabel>
                 </RadioContainer>
-              </RadioWraper>
+              </RadioWrapper>
 
               <ModalLabel>
                 birthdate:

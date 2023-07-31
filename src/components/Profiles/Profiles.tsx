@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 
 import svg from 'Images/symbol-defs.svg';
 import Modal from 'components/Modal/Modal';
-import Spiner from 'components/Spiner/Spiner';
+import Spinner from 'components/Spinner/Spinner';
 import UserModal from 'components/UsersModal/UsersModal';
+import UserDataPanel from 'components/UserDataPanel/UserDataPanel';
 import ProfilesCardItem from './ProfilesCardItem';
 import {
   ProfileContainer,
@@ -22,36 +23,34 @@ import {
 } from 'Redux/currentUser/currentUserSelectors';
 import { logined } from 'Redux/currentUser/currentUserSlice';
 import { getUserId } from 'Redux/user/userSelectors';
-import { backendAPI } from 'Redux/services/backendAPI';
-import { ICurentUser } from 'components/Types/Types';
-import { IProfileData } from 'Redux/services/backendTypes';
+import {
+  backendAPI,
+  useCreateProfilesMutation,
+  useDeleteUserMutation,
+  useGetProfilesQuery,
+} from 'Redux/services/backendAPI';
+import { PathRoutes } from 'environment/routes';
+import { CurrentUser } from 'components/Types/Types';
 import { getAllProfiles } from 'Redux/profiles/profilesSelectors';
-import UserDataPanel from 'components/UserDataPanel/UserDataPanel';
 
 const Profiles: React.FC = () => {
-  const [profiles, setProfiles] = useState<IProfileData[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showUserModal, setShowUserModal] = useState<boolean>(false);
 
-  const [trigger] = backendAPI.endpoints.GetProfiles.useLazyQuery();
-  const [triggerGetUser] = backendAPI.endpoints.GetCurrentUser.useLazyQuery();
-  const [triggerDelete] = backendAPI.endpoints.DeleteUser.useLazyQuery();
-
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const location = useLocation();
-
   const userId = useSelector(getUserId);
   const isLogining = useSelector(getLogining);
-  const allProfiles = useSelector(getAllProfiles);
+  const profiles = useSelector(getAllProfiles);
   const {
     name: curentUserName,
     email: curentUserEmail,
     role: curentUserRole,
     isPending,
     userExist,
-  }: ICurentUser = useSelector(getCurrentUserData);
+  }: CurrentUser = useSelector(getCurrentUserData);
 
   const createProfileInitialValues = {
     name: '',
@@ -59,12 +58,16 @@ const Profiles: React.FC = () => {
     city: '',
   };
 
+  useGetProfilesQuery(location?.state?._id ? location?.state?._id : userId);
+  const [triggerDelete] = useDeleteUserMutation();
+  const [triggerGetUser] = backendAPI.endpoints.GetCurrentUser.useLazyQuery();
+
   /////////////////////////////////      useEffects    ////////////////////////////////
 
   useEffect(() => {
     if (isLogining) {
       dispatch(logined());
-      navigate('/', { replace: true });
+      navigate(PathRoutes.RouteDefault, { replace: true });
     }
 
     if (userExist || isLogining) {
@@ -73,18 +76,8 @@ const Profiles: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (location?.state?._id) {
-      const { _id } = location.state;
-      triggerGetUser(_id);
-      trigger(_id);
-    } else {
-      trigger(userId);
-    }
+    if (location?.state?._id) triggerGetUser(location?.state?._id);
   }, [location.state]);
-
-  useEffect(() => {
-    setProfiles(allProfiles);
-  }, [allProfiles]);
 
   useEffect(() => {
     document!.body!.style!.overflow =
@@ -109,7 +102,7 @@ const Profiles: React.FC = () => {
   };
 
   const deleteUser = async (evt: any) => {
-    evt.currentTarget.diasabled = true;
+    evt.currentTarget.disabled = true;
     await triggerDelete(location?.state?._id);
     navigate('/users');
   };
@@ -117,7 +110,7 @@ const Profiles: React.FC = () => {
   return (
     <>
       {isPending ? (
-        <Spiner height={80} width={80} containerMargin={true} />
+        <Spinner height={80} width={80} containerMargin={true} />
       ) : (
         <ProfileContainer>
           <UserDataPanel
@@ -168,9 +161,10 @@ const Profiles: React.FC = () => {
       {showModal && (
         <Modal
           showModal={setShowModal}
-          APIfunction={backendAPI.endpoints.CreateProfiles.useLazyQuery}
+          APIfunction={useCreateProfilesMutation}
           initialValues={createProfileInitialValues}
           setUserId={location?.state?._id ?? null}
+          invalidate={true}
         />
       )}
     </>

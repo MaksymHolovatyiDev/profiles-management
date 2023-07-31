@@ -1,4 +1,4 @@
-export interface IProfileCard {
+export interface ProfileCard {
   name: string;
   gender: string;
   birthDate: string;
@@ -6,20 +6,20 @@ export interface IProfileCard {
   id: string;
 }
 
-export interface IUserCard {
+export interface UserCard {
   _id: string;
   name: string;
   email: string;
   profiles: number;
 }
 
-export interface ISpinerProps {
+export interface SpinnerProps {
   height: number;
   width: number;
   containerMargin: boolean;
 }
 
-export interface ICurentUser {
+export interface CurrentUser {
   name: string;
   email: string;
   role: string;
@@ -29,7 +29,7 @@ export interface ICurentUser {
   scrollPosition: number;
 }
 
-export interface IUpdateUser {
+export interface UpdateUser {
   name: string;
   email: string;
   admin: string;
