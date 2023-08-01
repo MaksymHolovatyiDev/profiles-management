@@ -1,12 +1,9 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import { Formik } from 'formik';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import svg from 'Images/symbol-defs.svg';
 import {
-  Backdrop,
   UserModalContainer,
   UserModalForm,
   UserModalField,
@@ -16,9 +13,6 @@ import {
   RadioLabel,
   RadioInput,
   CustomRadio,
-  UserModalBtnsContainer,
-  UserModalBtn,
-  UserModalImage,
 } from 'components/UsersModal/UsersModal.styled';
 import { getUserId } from 'Redux/user/userSelectors';
 import { resetUser } from 'Redux/currentUser/currentUserSlice';
@@ -26,27 +20,20 @@ import { useUpdateUserMutation } from 'Redux/services/backendAPI';
 import { UpdateUser } from 'components/Types/Types';
 import { changeMainUserData, logOut } from 'Redux/user/userSlice';
 import { PathRoutes } from 'environment/routes';
+import ModalBtns from 'components/ModalBtns/ModalBtns';
 
-const UserModal: React.FC<any> = ({ name, email, role, _id, showModal }) => {
+const UserModal: React.FC<any> = ({ data }) => {
+  const {
+    initialState: { name, email, role },
+    _id,
+    showModal,
+  } = data;
   const [trigger, { isLoading }] = useUpdateUserMutation();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const mainUserId = useSelector(getUserId);
-
-  const handleClick = (evt: KeyboardEvent) => {
-    if (evt.code === 'Escape') {
-      showModal(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleClick);
-    return () => {
-      window.removeEventListener('keydown', handleClick);
-    };
-  }, []);
 
   const onSubmit = async (values: UpdateUser) => {
     if (!isLoading) {
@@ -76,66 +63,49 @@ const UserModal: React.FC<any> = ({ name, email, role, _id, showModal }) => {
     }
   };
 
-  const closeModal = () => {
-    showModal(false);
-  };
-
   return (
-    <Backdrop>
-      <UserModalContainer>
-        <Formik
-          initialValues={{
-            name,
-            email,
-            admin: role === 'admin' ? 'admin' : 'user',
-          }}
-          onSubmit={onSubmit}
-        >
-          {() => (
-            <UserModalForm>
-              <UserModalLabel>
-                user name:
-                <UserModalField type="text" name="name" required />
-              </UserModalLabel>
+    <UserModalContainer>
+      <Formik
+        initialValues={{
+          name,
+          email,
+          admin: role === 'admin' ? 'admin' : 'user',
+        }}
+        onSubmit={onSubmit}
+      >
+        {() => (
+          <UserModalForm>
+            <UserModalLabel>
+              user name:
+              <UserModalField type="text" name="name" required />
+            </UserModalLabel>
 
-              <UserModalLabel>
-                email:
-                <UserModalField type="email" name="email" required />
-              </UserModalLabel>
+            <UserModalLabel>
+              email:
+              <UserModalField type="email" name="email" required />
+            </UserModalLabel>
 
-              <RadioWrapper>
-                <UserModalLabel>role:</UserModalLabel>
-                <RadioContainer>
-                  <RadioLabel>
-                    <RadioInput type="radio" name="admin" value="user" />
-                    <CustomRadio />
-                    user
-                  </RadioLabel>
-                  <RadioLabel>
-                    <RadioInput type="radio" name="admin" value="admin" />
-                    <CustomRadio />
-                    admin
-                  </RadioLabel>
-                </RadioContainer>
-              </RadioWrapper>
+            <RadioWrapper>
+              <UserModalLabel>role:</UserModalLabel>
+              <RadioContainer>
+                <RadioLabel>
+                  <RadioInput type="radio" name="admin" value="user" />
+                  <CustomRadio />
+                  user
+                </RadioLabel>
+                <RadioLabel>
+                  <RadioInput type="radio" name="admin" value="admin" />
+                  <CustomRadio />
+                  admin
+                </RadioLabel>
+              </RadioContainer>
+            </RadioWrapper>
 
-              <UserModalBtnsContainer>
-                <UserModalBtn type="submit">
-                  <UserModalImage>
-                    <use href={`${svg}#icon-check-1`}></use>\
-                  </UserModalImage>
-                </UserModalBtn>
-                <UserModalBtn type="button" onClick={closeModal}>
-                  <UserModalImage>
-                    <use href={`${svg}#icon-close-2-1`}></use>\
-                  </UserModalImage>
-                </UserModalBtn>
-              </UserModalBtnsContainer>
-            </UserModalForm>
-          )}
-        </Formik>
-      </UserModalContainer>
-    </Backdrop>
+            <ModalBtns showModal={showModal} />
+          </UserModalForm>
+        )}
+      </Formik>
+    </UserModalContainer>
   );
 };
 

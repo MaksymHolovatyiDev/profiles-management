@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 
 import Modal from 'components/Modal/Modal';
 import Spinner from 'components/Spinner/Spinner';
-import UserModal from 'components/UsersModal/UsersModal';
 import UserDataPanel from 'components/UserDataPanel/UserDataPanel';
 import {
   ProfileContainer,
@@ -12,36 +11,31 @@ import {
   ProfileCardsList,
 } from 'components/Profiles/Profiles.styled';
 import { getCurrentUserData } from 'Redux/currentUser/currentUserSelectors';
-import { useCreateProfilesMutation } from 'Redux/services/backendAPI';
 import { CurrentUser } from 'components/Types/Types';
 import CreateProfileCard from 'components/CreateProfileCard/CreateProfileCard';
 import MainProfilesCardsList from 'components/MainProfilesCardsList/MainProfilesCardsList';
 import { useProfilesEffect } from 'components/customHooks/profilesHooks';
+import { useCreateProfilesMutation } from 'Redux/services/backendAPI';
 
 const Profiles: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showUserModal, setShowUserModal] = useState<boolean>(false);
 
   const location = useLocation();
+  const { name, email, role }: CurrentUser = useSelector(getCurrentUserData);
 
-  const {
-    name: currentUserName,
-    email: currentUserEmail,
-    role: currentUserRole,
-  }: CurrentUser = useSelector(getCurrentUserData);
+  const isFetching = useProfilesEffect(
+    name,
+    showModal,
+    showUserModal,
+    location
+  );
 
   const createProfileInitialValues = {
     name: '',
     gender: 'male',
     city: '',
   };
-
-  const isFetching = useProfilesEffect(
-    currentUserName,
-    showModal,
-    showUserModal,
-    location
-  );
 
   return (
     <>
@@ -64,11 +58,10 @@ const Profiles: React.FC = () => {
       )}
 
       {showUserModal && (
-        <UserModal
+        <Modal
+          UserModal={true}
           _id={location?.state?._id}
-          name={currentUserName}
-          email={currentUserEmail}
-          role={currentUserRole}
+          initialState={{ name, email, role }}
           showModal={setShowUserModal}
         />
       )}
@@ -76,10 +69,10 @@ const Profiles: React.FC = () => {
       {showModal && (
         <Modal
           showModal={setShowModal}
-          APIfunction={useCreateProfilesMutation}
-          initialValues={createProfileInitialValues}
           setUserId={location?.state?._id ?? null}
+          initialValues={createProfileInitialValues}
           invalidate={true}
+          APIfunction={useCreateProfilesMutation}
         />
       )}
     </>

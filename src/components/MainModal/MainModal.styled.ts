@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Form, Field } from 'formik';
 import {
   mainTextBlack,
@@ -7,8 +7,7 @@ import {
   white,
 } from 'Theme/Theme';
 
-
-export const UserModalContainer = styled('div')`
+export const ModalContainer = styled('div')`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -21,7 +20,7 @@ export const UserModalContainer = styled('div')`
 
   background-color: ${white};
 
-  padding: 70px 150px;
+  padding: 70px 175px;
   border-radius: 12px;
 
   transform: translate(-50%, -50%);
@@ -32,7 +31,7 @@ export const UserModalContainer = styled('div')`
   }
 `;
 
-export const UserModalForm = styled(Form)`
+export const ModalForm = styled(Form)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -41,7 +40,7 @@ export const UserModalForm = styled(Form)`
   gap: 25px;
 `;
 
-export const UserModalField = styled(Field)`
+const inputSyles = css`
   width: 100%;
 
   color: ${mainTextBlack};
@@ -59,7 +58,15 @@ export const UserModalField = styled(Field)`
   outline: none;
 `;
 
-export const UserModalLabel = styled('label')`
+export const ModalField = styled(Field)`
+  ${inputSyles}
+`;
+
+export const DateInput = styled('input')`
+  ${inputSyles}
+`;
+
+export const ModalLabel = styled('label')`
   width: 100%;
 
   color: ${mainLabelText};
@@ -75,6 +82,8 @@ export const RadioWrapper = styled('div')`
 `;
 
 export const RadioContainer = styled('div')`
+  width: 100%;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,6 +103,8 @@ export const RadioLabel = styled('label')`
   font-weight: 400;
   font-size: 24px;
   line-height: 1.5;
+
+  cursor: pointer;
 `;
 
 export const RadioInput = styled(Field)`
