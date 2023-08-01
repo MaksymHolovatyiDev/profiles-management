@@ -7,7 +7,7 @@ export const saveTokenMiddleware =
     }
 
     if (
-      action.type === 'backendAPI/executeMutation/rejected' &&
+      action.type === 'backendAPI/executeQuery/rejected' &&
       (action?.payload?.status === 401 ||
         action?.payload?.originalStatus === 401)
     ) {

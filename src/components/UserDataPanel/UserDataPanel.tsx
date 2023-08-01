@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import svg from 'Images/symbol-defs.svg';
 import {
@@ -8,12 +9,30 @@ import {
   UserDataBtnsContainer,
   UserDataBtn,
   UserDataBtnImage,
-} from './UserDataPanel.styled';
+} from 'components/UserDataPanel/UserDataPanel.styled';
 import { CurrentUser } from 'components/Types/Types';
 import { getCurrentUserData } from 'Redux/currentUser/currentUserSelectors';
+import { useDeleteUserMutation } from 'Redux/services/backendAPI';
 
-const UserDataPanel: React.FC<any> = ({ toggleUserModal, deleteUser }) => {
+const UserDataPanel: React.FC<any> = ({ setShowUserModal, location }) => {
+  const [triggerDelete] = useDeleteUserMutation();
+
+  const navigate = useNavigate();
+
   const { name, email, role }: CurrentUser = useSelector(getCurrentUserData);
+
+  const toggleUserModal = (
+    evt: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    evt.currentTarget.blur();
+    setShowUserModal((prevState: boolean) => !prevState);
+  };
+
+  const deleteUser = async (evt: any) => {
+    evt.currentTarget.disabled = true;
+    await triggerDelete(location?.state?._id);
+    navigate('/users');
+  };
 
   return (
     <>

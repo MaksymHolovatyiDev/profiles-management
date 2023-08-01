@@ -1,4 +1,4 @@
-import { RootState } from '../store';
+import { RootState } from 'Redux/store';
 
 export const getUserId = (state: RootState) => state.user.id;
 export const getUserName = (state: RootState) => state.user.name;

@@ -1,7 +1,11 @@
 import React from 'react';
 
 import ChangeThemeButton from 'components/ChangeThemeButton/ChangeThemeButton';
-import { UserContainer, UserAvatarImg, UserName } from './UserAvatar.styled';
+import {
+  UserContainer,
+  UserAvatarImg,
+  UserName,
+} from 'components/UserAvatar/UserAvatar.styled';
 import { useSelector } from 'react-redux';
 import { getAdmin, getUserName } from 'Redux/user/userSelectors';
 

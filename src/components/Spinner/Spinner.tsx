@@ -2,7 +2,7 @@ import React from 'react';
 import { ThreeDots } from 'react-loader-spinner';
 
 import { mainTextBlack } from 'Theme/Theme';
-import { SpinnerContainer } from './Spinner.styled';
+import { SpinnerContainer } from 'components/Spinner/Spinner.styled';
 import { SpinnerProps } from 'components/Types/Types';
 
 const Spinner: React.FC<SpinnerProps> = ({

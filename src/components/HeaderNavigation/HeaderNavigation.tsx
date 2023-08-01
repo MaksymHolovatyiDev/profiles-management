@@ -8,7 +8,7 @@ import {
   NavigationLink,
   NavigationImg,
   LogoutBtn,
-} from './HeaderNavigation.styled';
+} from 'components/HeaderNavigation/HeaderNavigation.styled';
 import {
   resetUser,
   setScrollPosition,

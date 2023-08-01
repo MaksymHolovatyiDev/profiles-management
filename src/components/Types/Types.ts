@@ -40,6 +40,11 @@ export interface AuthorizationComponents {
   isFetching: boolean;
 }
 
+export interface ProfilesBtnsCardProps {
+  setShowModal: any;
+  id: string;
+}
+
 /////////////////////////////////      Types    ////////////////////////////////
 
 export type UserSignUpData = {

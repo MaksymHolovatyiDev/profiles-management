@@ -9,7 +9,7 @@ import {
   ThemeInput,
   ThemeCustomInput,
   ThemeImg,
-} from './ChangeThemeButton.styled';
+} from 'components/ChangeThemeButton/ChangeThemeButton.styled';
 
 const ChangeThemeButton: React.FC = () => {
   const dispatch = useDispatch();

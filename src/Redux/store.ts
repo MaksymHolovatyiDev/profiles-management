@@ -12,11 +12,11 @@ import {
   REGISTER,
 } from 'redux-persist';
 
-import { backendAPI } from './services/backendAPI';
-import { userReducer } from './user/userSlice';
-import { profilesReducer } from './profiles/profilesSlice';
-import { currentUserReducer } from './currentUser/currentUserSlice';
-import { saveTokenMiddleware } from './middlewares/saveToken';
+import { backendAPI } from 'Redux/services/backendAPI';
+import { userReducer } from 'Redux/user/userSlice';
+import { profilesReducer } from 'Redux/profiles/profilesSlice';
+import { currentUserReducer } from 'Redux/currentUser/currentUserSlice';
+import { saveTokenMiddleware } from 'Redux/middlewares/saveToken';
 
 const persistConfig = {
   key: 'user',

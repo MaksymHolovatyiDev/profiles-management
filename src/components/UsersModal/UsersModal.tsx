@@ -19,7 +19,7 @@ import {
   UserModalBtnsContainer,
   UserModalBtn,
   UserModalImage,
-} from './UserModal.styled';
+} from 'components/UsersModal/UsersModal.styled';
 import { getUserId } from 'Redux/user/userSelectors';
 import { resetUser } from 'Redux/currentUser/currentUserSlice';
 import { useUpdateUserMutation } from 'Redux/services/backendAPI';
