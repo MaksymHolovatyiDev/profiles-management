@@ -8,8 +8,8 @@ export const saveTokenMiddleware =
 
     if (
       action.type === 'backendAPI/executeQuery/rejected' &&
-      (action?.payload?.status === 401 ||
-        action?.payload?.originalStatus === 401)
+      (action?.payload?.status === 403 ||
+        action?.payload?.originalStatus === 403)
     ) {
       store.dispatch(logOut());
       localStorage.removeItem('user');
