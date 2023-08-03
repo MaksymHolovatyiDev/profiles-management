@@ -5,7 +5,7 @@ import {
   ProfileBtnsContainer,
   ProfileBtn,
   ProfileBtnImg,
-} from 'components/ProfileCardItemBtns/ProfilesCardItemBtns.styled';
+} from 'components/ProfileCardItemBtns/ProfileCardItemBtns.styled';
 import { ProfilesBtnsCardProps } from 'components/Types/Types';
 import { useDeleteProfileMutation } from 'Redux/services/backendAPI';
 

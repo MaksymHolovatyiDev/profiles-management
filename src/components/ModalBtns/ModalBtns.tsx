@@ -17,12 +17,12 @@ const ModalBtns: React.FC<any> = ({ showModal }) => {
     <ModalBtnsContainer>
       <ModalBtn type="submit">
         <ModalImage>
-          <use href={`${svg}#icon-check-1`}></use>\
+          <use href={`${svg}#icon-check-1`}></use>
         </ModalImage>
       </ModalBtn>
       <ModalBtn type="button" onClick={closeModal}>
         <ModalImage>
-          <use href={`${svg}#icon-close-2-1`}></use>\
+          <use href={`${svg}#icon-close-2-1`}></use>
         </ModalImage>
       </ModalBtn>
     </ModalBtnsContainer>

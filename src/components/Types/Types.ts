@@ -65,3 +65,23 @@ export type ProfileDataValue = {
   gender: string;
   city: string;
 };
+
+export type SvgImgType = {
+  imageName: string;
+};
+
+export type DashboardCardType = {
+  DashboardCardData: {
+    name: string;
+    value: number | string;
+  };
+};
+
+export type HeaderNavigationLinkItemTypes = {
+  linkData: {
+    route: string;
+    click: any;
+    text: string;
+    image: string;
+  };
+};
