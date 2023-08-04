@@ -5,10 +5,10 @@ import DashboardCard from 'components/Dashboard/DashboardCard';
 
 describe('DashboardCard', () => {
   const DashboardCardData = { name: 'abc', value: '123' };
-  it('renders DashboardCard component', async () => {
+  it('renders DashboardCard component', () => {
     render(<DashboardCard DashboardCardData={DashboardCardData} />);
 
-    expect(await screen.queryByText('abc:')).toBeInTheDocument();
-    expect(await screen.queryByText('123')).toBeInTheDocument();
+    expect(screen.queryByText('abc:')).toBeInTheDocument();
+    expect(screen.queryByText('123')).toBeInTheDocument();
   });
 });

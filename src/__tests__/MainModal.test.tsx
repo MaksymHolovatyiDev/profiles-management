@@ -41,7 +41,6 @@ describe('Main modal', () => {
     expect(screen.getByRole('radio', { name: 'female' })).toBeInTheDocument();
 
     const submitButton = screen.getAllByRole('button')[0];
-    expect(submitButton).toBeInTheDocument();
 
     await waitFor(() => fireEvent.click(submitButton));
   });

@@ -113,7 +113,7 @@ describe('currentUser reducers', () => {
       scrollPosition: 0,
     });
   });
-  it('setScrollPosition reducer', () => {
+  it('resetUser reducer', () => {
     expect(
       currentUserReducer(
         {

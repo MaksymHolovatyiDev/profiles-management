@@ -1,14 +1,12 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import HeaderNavigationLinkItem from 'components/HeaderNavigation/HeaderNavigationLinkItem';
 import { Wrapper } from '__mocks__/utils';
 
 describe('HeaderNavigationLinkItem', () => {
   const linkData = { route: '/', click: () => true, text: 'adf', image: 'img' };
-  it('renders HeaderNavigationLinkItem component', async () => {
-    const history = createMemoryHistory({ initialEntries: ['/Dashboard'] });
+  it('renders HeaderNavigationLinkItem component', () => {
     render(
       <Wrapper>
         <HeaderNavigationLinkItem linkData={linkData} />
@@ -17,9 +15,8 @@ describe('HeaderNavigationLinkItem', () => {
 
     const link = screen.getByRole('link');
 
-    await waitFor(() => expect(screen.queryByText('adf')).toBeInTheDocument());
-    expect(history.location.pathname).toBe('/Dashboard');
+    expect(screen.queryByText('adf')).toBeInTheDocument();
     fireEvent.click(link);
-    await waitFor(() => expect(history.location.pathname).toBe('/'));
+    expect(link).toHaveAttribute('href', '/');
   });
 });

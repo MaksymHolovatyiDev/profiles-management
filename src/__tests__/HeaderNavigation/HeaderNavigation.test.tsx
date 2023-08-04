@@ -1,13 +1,18 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import HeaderNavigation from 'components/HeaderNavigation/HeaderNavigation';
 import { Wrapper } from '__mocks__/utils';
 
+const mockedUsedNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedUsedNavigate,
+}));
+
 describe('HeaderNavigation', () => {
-  it('renders HeaderNavigation component', async () => {
-    const history = createMemoryHistory({ initialEntries: ['/Dashboard'] });
+  it('renders HeaderNavigation component', () => {
     render(
       <Wrapper>
         <HeaderNavigation />
@@ -16,8 +21,7 @@ describe('HeaderNavigation', () => {
 
     const logOutBtn = screen.getByRole('button');
 
-    expect(history.location.pathname).toBe('/Dashboard');
     fireEvent.click(logOutBtn);
-    await waitFor(() => expect(history.location.pathname).toBe('/'));
+    expect(mockedUsedNavigate).toHaveBeenCalledWith('/');
   });
 });

@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor, render } from '@testing-library/react';
 import ProfileCardItemBtns from 'components/ProfileCardItemBtns/ProfileCardItemBtns';
 import { Wrapper } from '__mocks__/utils';
 
@@ -8,7 +8,7 @@ describe('Create ProfileCardItemBtns buttons', () => {
     setShowModal: (data: any) => data,
     id: '123',
   };
-  it('renders ProfileCardItemBtns component', () => {
+  it('renders ProfileCardItemBtns component', async () => {
     render(
       <Wrapper>
         <ProfileCardItemBtns {...props} />
@@ -19,7 +19,9 @@ describe('Create ProfileCardItemBtns buttons', () => {
 
     const closeButton = screen.getAllByRole('button')[1];
 
-    fireEvent.click(deleteButton);
-    fireEvent.click(closeButton);
+    await waitFor(() => {
+      fireEvent.click(deleteButton);
+      fireEvent.click(closeButton);
+    });
   });
 });

@@ -1,10 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { server } from '__mocks__/server';
 
 import Dashboard from 'components/Dashboard/Dashboard';
 import { Wrapper } from '__mocks__/utils';
-import { rest } from 'msw';
 
 describe('Dashboard', () => {
   it('renders Dashboard component', async () => {
@@ -13,14 +11,8 @@ describe('Dashboard', () => {
         <Dashboard />
       </Wrapper>
     );
-    server.use(
-      rest.get('http://localhost:5000/api/dashboard', (_, res, ctx) => {
-        return res(
-          ctx.json({ users: 2, profiles: 3, adult: 4 }),
-          ctx.status(200)
-        );
-      })
-    );
+
+    expect(screen.getByText('Dashboard:')).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.queryByText(2)).toBeInTheDocument();

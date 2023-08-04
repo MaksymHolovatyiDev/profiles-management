@@ -1,5 +1,7 @@
 import { rest } from 'msw';
 
+const BASE_URL = 'http://localhost:5000';
+
 const user = {
   id: '123',
   name: 'user1123',
@@ -14,16 +16,18 @@ const user = {
 
 const dashboard = { users: 2, profiles: 3, adult: 4 };
 
-const SignInRoute = '/api/auth/SignIn';
-const SignUpRoute = '/api/auth/SignUp';
+const allUsers = [{ _id: 'qwe', name: 'Tom', email: 'erer', profiles: 1 }];
 
-const profilesRoute = '/api/Profiles';
-const profilesIdRoute = `http://localhost:5000/api/Profiles/${user.id}`;
+const SignInRoute = `${BASE_URL}/api/auth/SignIn`;
+const SignUpRoute = `${BASE_URL}/api/auth/SignUp`;
 
-const dashboardRoute = 'http://localhost:5000/api/dashboard';
+const profilesRoute = `${BASE_URL}/api/Profiles`;
+const profilesIdRoute = `${BASE_URL}/api/Profiles/${user.id}`;
 
-const usersRoute = '/api/Users';
-const usersIdRoute = `/api/Users/${user.id}`;
+const dashboardRoute = `${BASE_URL}/api/dashboard`;
+
+const usersRoute = `${BASE_URL}/api/users`;
+const usersIdRoute = `${BASE_URL}/api/Users/${user.id}`;
 
 export const characterHandlers = [
   rest.post(SignUpRoute, (_, res, ctx) => {
@@ -73,7 +77,7 @@ export const characterHandlers = [
     return res(ctx.json(dashboard), ctx.status(200));
   }),
   rest.get(usersRoute, (_, res, ctx) => {
-    return res(ctx.json(user), ctx.status(200));
+    return res(ctx.json(allUsers), ctx.status(200));
   }),
   rest.post(usersIdRoute, (req, res, ctx) => {
     return res(ctx.json({ ...req, id: user.id }), ctx.status(200));
