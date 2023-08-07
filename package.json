@@ -3,10 +3,6 @@
   "main": "src/index.tsx",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "YOUR_VERSION_OF_NODE",
-    "npm": "YOUR_VERSION_OF_NPM"
-  },
   "dependencies": {
     "-": "^0.0.1",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
