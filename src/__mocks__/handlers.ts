@@ -22,6 +22,7 @@ const SignInRoute = `${BASE_URL}/api/auth/SignIn`;
 const SignUpRoute = `${BASE_URL}/api/auth/SignUp`;
 
 const profilesRoute = `${BASE_URL}/api/Profiles`;
+
 const profilesIdRoute = `${BASE_URL}/api/Profiles/${user.id}`;
 
 const dashboardRoute = `${BASE_URL}/api/dashboard`;
