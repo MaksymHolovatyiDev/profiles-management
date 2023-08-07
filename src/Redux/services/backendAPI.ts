@@ -35,10 +35,7 @@ export const backendAPI = createApi({
   reducerPath: 'backendAPI',
   baseQuery: baseQuery,
   endpoints: builder => ({
-    Authorization: builder.mutation<
-      AuthRes,
-       AuthReq
-    >({
+    Authorization: builder.mutation<AuthRes, AuthReq>({
       query: data => ({
         url: `auth/${data.route}`,
         method: 'POST',
@@ -113,7 +110,7 @@ export const backendAPI = createApi({
 export const {
   useGetDashboardInfoQuery,
   useGetAllUsersQuery,
- useAuthorizationMutation,
+  useAuthorizationMutation,
   useCreateProfilesMutation,
   useUpdateProfileMutation,
   useDeleteProfileMutation,

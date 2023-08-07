@@ -22,7 +22,7 @@ const Authorization: React.FC = () => {
 
   const [trigger, { isFetching, error, isSuccess, data }]: any =
     useAuthorizationMutation();
-  console.log(error, data);
+
   useEffect(() => {
     if (isSignUpPage) {
       if (error?.data?.message === 'Email already exists!') {
