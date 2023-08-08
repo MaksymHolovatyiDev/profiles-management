@@ -18,16 +18,13 @@ export const UsersTitle = styled('p')`
 `;
 
 export const UsersCardsList = styled('ul')`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(396px, 1fr));
   gap: 32px;
   row-gap: 60px;
 `;
 
 export const UserCardContainer = styled(NavLink)`
-  height: 208px;
-  width: 396px;
-
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-import {  mainHoverColor, mainTextBlack } from 'Theme/Theme';
-
+import { mainHoverColor, mainTextBlack } from 'Theme/Theme';
 
 export const NavigationList = styled('ul')`
   display: flex;
@@ -43,6 +42,10 @@ export const NavigationLink = styled(NavLink)`
   &:hover > svg,
   &:focus > svg {
     fill: ${mainHoverColor};
+  }
+
+  @media screen and (max-width: 1063px) {
+    font-size: 0;
   }
 `;
 

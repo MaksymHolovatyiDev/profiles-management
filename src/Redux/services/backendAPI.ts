@@ -34,6 +34,7 @@ const baseQuery = fetchBaseQuery({
 export const backendAPI = createApi({
   reducerPath: 'backendAPI',
   baseQuery: baseQuery,
+  tagTypes: ['Dashboard', 'Users'],
   endpoints: builder => ({
     Authorization: builder.mutation<AuthRes, AuthReq>({
       query: data => ({
@@ -55,6 +56,7 @@ export const backendAPI = createApi({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Dashboard', 'Users'],
     }),
 
     UpdateProfile: builder.mutation<ProfileDataRes, UpdateProfileReq>({
@@ -70,18 +72,21 @@ export const backendAPI = createApi({
         url: `profiles/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Dashboard', 'Users'],
     }),
 
     GetDashboardInfo: builder.query<DashboardRes, void>({
       query: () => ({
         url: 'dashboard',
       }),
+      providesTags: ['Dashboard'],
     }),
 
     GetAllUsers: builder.query<GetUsersRes[], void>({
       query: () => ({
         url: 'users',
       }),
+      providesTags: ['Users'],
     }),
 
     GetCurrentUser: builder.query<UserUpdateRes, string>({
