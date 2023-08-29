@@ -3,7 +3,7 @@ const {devices} = require('@playwright/test');
 /** @type {import('@playwright/test').PlaywrightTestConfig} */
 const config = {
   testDir: 'src/E2E/__tests__',
-  // reporter: 'html',
+  reporter: 'html',
   projects: [
     {
       name: 'Desktop Chromium',

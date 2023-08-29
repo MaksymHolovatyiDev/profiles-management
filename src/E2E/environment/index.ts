@@ -9,6 +9,12 @@ export const SignInAdmin = {
   login: 'Max@admin',
   password: 'qweqwe',
 };
+
+export const SignInUser = {
+  login: 'Max@user',
+  password: 'qweqwe',
+};
+
 export const SignUpUser = {
   login: 'NewUser1@gmail',
   password: 'qweqwe',

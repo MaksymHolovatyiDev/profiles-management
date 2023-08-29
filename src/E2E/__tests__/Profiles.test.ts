@@ -1,7 +1,7 @@
 import {test, expect} from '@playwright/test';
 import {Routes, SignInAdmin, baseUrl, profile} from 'E2E/environment';
 
-test.describe('feature Sign in', () => {
+test.describe('feature Profiles', () => {
   test.beforeEach(async ({page}) => {
     await page.goto(baseUrl + Routes.SignIn);
     await page.waitForURL(baseUrl + Routes.SignIn);

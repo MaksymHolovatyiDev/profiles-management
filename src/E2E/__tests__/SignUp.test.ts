@@ -3,7 +3,7 @@ import {Routes, SignUpUser, baseUrl} from 'E2E/environment';
 
 const mainUrl = baseUrl + Routes.SignUp;
 
-test.describe('feature Sign in', () => {
+test.describe('feature Sign un', () => {
   test.beforeEach(async ({page}) => {
     await page.goto(mainUrl);
   });
