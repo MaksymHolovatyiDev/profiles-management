@@ -1,6 +1,5 @@
 export const baseUrl = 'http://localhost:3000';
-export const backendUrl =
-  'https://profiles-management-backend-11fa8f64c6a0.herokuapp.com/api/';
+
 export enum Routes {
   SignIn = '/SignIn',
   SignUp = '/SignUp',

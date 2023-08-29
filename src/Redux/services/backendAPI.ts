@@ -12,10 +12,9 @@ import type {
   UserUpdateReq,
   UserUpdateRes,
 } from './backendTypes';
-import {baseUrl} from 'environment/variables';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl,
+  baseUrl: process.env.REACT_APP_BACKEND_URL,
   prepareHeaders: headers => {
     if (!headers.get('Authorization')) {
       const userData = localStorage.getItem('user');
