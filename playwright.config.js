@@ -28,6 +28,14 @@ const config = {
       },
     },
   ],
+  webServer: {
+    command: 'npm start',
+    url: 'http://localhost:3000/',
+    timeout: 120000,
+  },
+  use: {
+    baseURL: 'http://localhost:3000/',
+  },
 };
 
 module.exports = config;
