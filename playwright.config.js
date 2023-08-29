@@ -28,10 +28,6 @@ const config = {
       },
     },
   ],
-  webServer: {
-    command: 'npm run start',
-    url: 'http://localhost:3000',
-  },
 };
 
 module.exports = config;
