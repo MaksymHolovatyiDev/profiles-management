@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
 import type {
   AuthRes,
@@ -12,7 +12,7 @@ import type {
   UserUpdateReq,
   UserUpdateRes,
 } from './backendTypes';
-import { baseUrl } from 'environment/variables';
+import {baseUrl} from 'environment/variables';
 
 const baseQuery = fetchBaseQuery({
   baseUrl,
@@ -108,6 +108,7 @@ export const backendAPI = createApi({
         url: `users/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Dashboard', 'Users'],
     }),
   }),
 });

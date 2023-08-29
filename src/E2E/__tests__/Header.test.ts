@@ -20,20 +20,24 @@ test.describe('Admin header', () => {
   test('Profiles navigation', async ({page}) => {
     expect(page.getByRole('link', {name: 'Profiles'})).toBeVisible();
     await page.getByRole('link', {name: 'Profiles'}).click();
+    await expect(page).toHaveURL(baseUrl);
     await expect(page.getByText('Profiles:')).toBeVisible();
   });
   test('Dashboard navigation', async ({page}) => {
     expect(page.getByRole('link', {name: 'DashBoard'})).toBeVisible();
     await page.getByRole('link', {name: 'DashBoard'}).click();
+    await expect(page).toHaveURL(baseUrl + Routes.Dashboard);
     await expect(page.getByText('Dashboard:')).toBeVisible();
   });
   test('Users navigation', async ({page}) => {
     expect(page.getByRole('link', {name: 'Users'})).toBeVisible();
     await page.getByRole('link', {name: 'Users'}).click();
+    await expect(page).toHaveURL(baseUrl + Routes.Users);
     await expect(page.getByText('Users:')).toBeVisible();
   });
   test('Log out', async ({page}) => {
     await page.getByRole('button', {name: 'Log out'}).click();
+    await expect(page).toHaveURL(baseUrl);
     await expect(page.getByText(/Sign in/)).toBeVisible();
   });
   test('Theme checkbox', async ({page}) => {

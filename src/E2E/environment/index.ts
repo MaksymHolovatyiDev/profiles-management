@@ -4,6 +4,8 @@ export const backendUrl =
 export enum Routes {
   SignIn = '/SignIn',
   SignUp = '/SignUp',
+  Dashboard = '/Dashboard',
+  Users = '/Users',
 }
 export const SignInAdmin = {
   login: 'Max@admin',
@@ -18,6 +20,7 @@ export const SignInUser = {
 export const SignUpUser = {
   login: 'NewUser1@gmail',
   password: 'qweqwe',
+  name: 'user',
 };
 
 export const profile = {

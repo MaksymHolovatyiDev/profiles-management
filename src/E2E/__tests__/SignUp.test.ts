@@ -42,7 +42,7 @@ test.describe('feature Sign un', () => {
 
   test('SignUp Button', async ({page}) => {
     await expect(page).toHaveURL(mainUrl);
-    await page.fill('#Username', 'user');
+    await page.fill('#Username', SignUpUser.name);
     await page.fill('#UserEmail', SignUpUser.login);
     await page.fill('#UserPassword', SignUpUser.password);
     await page.getByText('is admin').click();
