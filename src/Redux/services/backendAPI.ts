@@ -14,7 +14,8 @@ import type {
 } from './backendTypes';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.REACT_APP_BACKEND_URL,
+  baseUrl:
+    'https://profiles-management-backend-11fa8f64c6a0.herokuapp.com/api/',
   prepareHeaders: headers => {
     if (!headers.get('Authorization')) {
       const userData = localStorage.getItem('user');
