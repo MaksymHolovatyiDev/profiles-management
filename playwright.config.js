@@ -4,7 +4,6 @@ const {devices} = require('@playwright/test');
 const config = {
   testDir: 'src/E2E/__tests__',
   workers: 1,
-  reporter: 'html',
   projects: [
     {
       name: 'Desktop Chromium',
@@ -14,20 +13,20 @@ const config = {
         // channel: 'chrome-beta',
       },
     },
-    // {
-    //   name: 'Desktop Safari',
-    //   use: {
-    //     browserName: 'webkit',
-    //     viewport: {width: 1200, height: 750},
-    //   },
-    // },
-    // {
-    //   name: 'Desktop Firefox',
-    //   use: {
-    //     browserName: 'firefox',
-    //     viewport: {width: 800, height: 600},
-    //   },
-    // },
+    {
+      name: 'Desktop Safari',
+      use: {
+        browserName: 'webkit',
+        viewport: {width: 1200, height: 750},
+      },
+    },
+    {
+      name: 'Desktop Firefox',
+      use: {
+        browserName: 'firefox',
+        viewport: {width: 800, height: 600},
+      },
+    },
   ],
 };
 
