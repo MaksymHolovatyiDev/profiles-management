@@ -39,6 +39,7 @@ jobs:
       - name: Wait
         run: sleep 20
       - name: Heath check
+        working-directory: ./frontend
         run: curl http://localhost:8080/api/HealthCheck
       - name: Install dependencies
         working-directory: ./frontend
