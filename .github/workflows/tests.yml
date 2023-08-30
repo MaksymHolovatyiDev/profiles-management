@@ -5,8 +5,8 @@ on:
   pull_request:
     branches: [main]
 
- env:
-    REACT_APP_BACKEND_URL: ${{vars.REACT_APP_BACKEND_URL}}
+env:
+  REACT_APP_BACKEND_URL: ${{vars.REACT_APP_BACKEND_URL}}
 
 jobs:
   test:
