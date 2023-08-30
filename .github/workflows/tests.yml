@@ -8,6 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      Data: 'data-hardcode'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -16,7 +18,6 @@ jobs:
       - name: env
         run: touch .env
           echo REACT_APP_BACKEND_URL=${{ vars.REACT_APP_BACKEND_URL }}>> .env
-
       - name: Display env
         run: cat .env
       - name: Install dependencies
