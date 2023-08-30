@@ -14,7 +14,9 @@ jobs:
         with:
           node-version: 18
       - name: env
-        run: echo "REACT_APP_BACKEND_URL $REACT_APP_BACKEND_URL"
+        run: |
+          touch .env
+          echo REACT_APP_BACKEND_URL=${{ vars.REACT_APP_BACKEND_URL }}>> .env
         env:
           REACT_APP_BACKEND_URL: ${{vars.REACT_APP_BACKEND_URL}}
       - name: Install dependencies
