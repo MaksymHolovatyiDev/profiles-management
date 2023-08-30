@@ -8,9 +8,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    environment: ${{ vars.REACT_APP_BACKEND_URL }}
-
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
