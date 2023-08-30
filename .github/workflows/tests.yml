@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Actions checkout
         uses: actions/checkout@v3
+        with:
+          repository: MaksymHolovatyiDev/profiles-management
+          ref: master
+          path: frontend
       - name: Actions checkout backend
         uses: actions/checkout@v3
         with:
@@ -36,6 +40,8 @@ jobs:
         run: sleep 20
       - name: Heath check
         run: curl http://localhost:8080/api/HealthCheck
+      - name: Frontend cd
+        run: cd frontend
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
