@@ -11,7 +11,7 @@ jobs:
     env:
       Data: 'data-hardcode'
       NEW: ${{ vars.REACT_APP_BACKEND_URL }}
-      NEWDATA: ${{secrets.DATA}}
+      NEWDATA: ${{secrets.QWE}}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
