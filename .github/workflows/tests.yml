@@ -26,10 +26,7 @@ jobs:
           docker run -d -p 8080:8080 backend/image:1.0
       - name: Server build
         working-directory: ./backend
-        run: npm run build
-      - name: Server start
-        working-directory: ./backend
-        run: npm start
+        run: ls .
       - name: Wait
         run: sleep 20
       - name: Heath check
