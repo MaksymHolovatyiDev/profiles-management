@@ -9,10 +9,25 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Actions checkout
+        uses: actions/checkout@v3
+        with:
+          repository: MaksymHolovatyiDev/profiles-management-backend
+          ref: master
+          path: backend
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+
+      - name: Docker Image
+        working-directory: ./backend
+        run: |
+          docker build -t Docker-Image:latest
+          docker run -d -p 8080:8080 Docker-Image:latest
+      - name: Wait
+        run: sleep 100
+      - name: Heath check
+        run: curl http://localhost:8080/api/HealthCheck
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
