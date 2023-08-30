@@ -14,8 +14,7 @@ jobs:
         with:
           node-version: 18
       - name: env
-        run: |
-          touch .env
+        run: touch .env
           echo REACT_APP_BACKEND_URL=${{ vars.REACT_APP_BACKEND_URL }}>> .env
         env:
           REACT_APP_BACKEND_URL: ${{vars.REACT_APP_BACKEND_URL}}
