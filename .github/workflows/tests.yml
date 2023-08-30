@@ -33,7 +33,7 @@ jobs:
           docker build -t backend/image:1.0 .
           docker run -d -p 3000:3000 backend/image:1.0
       - name: cat .env
-        run: sleep 20
+        run: cat .env
       - name: Wait
         run: sleep 20
       - name: Heath check
