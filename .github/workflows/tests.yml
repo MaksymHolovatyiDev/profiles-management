@@ -41,7 +41,9 @@ jobs:
       - name: Heath check
         run: curl http://localhost:8080/api/HealthCheck
       - name: Frontend cd
-        run: cd frontend
+        run: cd ./frontend
+      - name: ls
+        run: ls .
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
