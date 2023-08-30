@@ -40,15 +40,14 @@ jobs:
         run: sleep 20
       - name: Heath check
         run: curl http://localhost:8080/api/HealthCheck
-      - name: Frontend cd
-        run: cd ./frontend
-      - name: ls
-        run: ls .
       - name: Install dependencies
+        working-directory: ./frontend
         run: npm ci
       - name: Install Playwright Browsers
+        working-directory: ./frontend
         run: npx playwright install --with-deps
       - name: Run Playwright tests
+        working-directory: ./frontend
         run: npm run E2Etest
         env:
           REACT_APP_BACKEND_URL: ${{ vars.REACT_APP_BACKEND_URL }}
