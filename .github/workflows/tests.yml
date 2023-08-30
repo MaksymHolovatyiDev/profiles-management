@@ -23,14 +23,14 @@ jobs:
         working-directory: ./backend
         run: |
           docker build -t backend/image:1.0 .
-          docker run -d -p 8080:8080 backend/image:1.0
+          docker run -d -p 3000:3000 backend/image:1.0
       - name: Server build
         working-directory: ./backend
         run: ls .
       - name: Wait
         run: sleep 20
       - name: Heath check
-        run: curl http://localhost:8080/api/HealthCheck
+        run: curl http://localhost:3000/api/HealthCheck
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
