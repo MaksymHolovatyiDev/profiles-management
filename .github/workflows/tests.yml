@@ -21,8 +21,7 @@ jobs:
 
       - name: Docker Image
         working-directory: ./backend
-        run: |
-          docker build -t backend/image:1.0
+        run: cat Dockerfile
       - name: Wait
         run: sleep 100
       - name: Heath check
