@@ -8,23 +8,16 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      Data: 'data-hardcode'
-      NEW: ${{ vars.REACT_APP_BACKEND_URL }}
-      NEWDATA: ${{vars.DATAQ}}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: env
-        run: touch .env
-          echo REACT_APP_BACKEND_URL=${{ vars.REACT_APP_BACKEND_URL }}>> .env
-      - name: Display env
-        run: cat .env
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: npm run E2Etest
+        env:
+          REACT_APP_BACKEND_URL: ${{ vars.REACT_APP_BACKEND_URL }}
