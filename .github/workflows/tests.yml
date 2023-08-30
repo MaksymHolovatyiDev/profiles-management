@@ -8,11 +8,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      KEY: ${{ vars.KEY }}
-      PORT: ${{ vars.PORT }}
-      DB_HOST: ${{ secrets.DB_HOST }}
-      DB_TEST: ${{ secrets.DB_TEST }}
 
     steps:
       - name: Actions checkout
@@ -32,6 +27,11 @@ jobs:
         run: |
           docker build -t backend/image:1.0 .
           docker run -d -p 8080:8080 backend/image:1.0
+        env:
+          KEY: ${{ vars.KEY }}
+          PORT: ${{ vars.PORT }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_TEST: ${{ secrets.DB_TEST }}
       - name: Wait
         run: sleep 20
       - name: Heath check
