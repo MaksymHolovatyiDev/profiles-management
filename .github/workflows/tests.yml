@@ -30,31 +30,12 @@ jobs:
         run: |
           touch .env
           echo KEY=${{ vars.KEY }}>> .env
-        env:
-          KEY: ${{ vars.KEY }}
-          PORT: ${{ vars.PORT }}
-          DB_HOST: data
-          DB_TEST: ${{ secrets.DB_TEST }}
-
-      - name: ls
-        working-directory: ./backend
-        run: ls .
+          echo DB_HOST=${{ vars.DB_HOST }}>> .env
       - name: Docker Image
         working-directory: ./backend
         run: |
           docker build -t backend/image:1.0 .
           docker run -d -p 8080:8080 backend/image:1.0
-        env:
-          KEY: ${{ vars.KEY }}
-          PORT: ${{ vars.PORT }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_TEST: ${{ secrets.DB_TEST }}
-      - name: ls
-        working-directory: ./backend
-        run: ls .
-      - name: cat
-        working-directory: ./backend
-        run: cat .env
       - name: Wait
         run: sleep 20
       - name: Heath check
