@@ -26,9 +26,8 @@ jobs:
         with:
           node-version: 18
       - name: Env
-        working-directory: ./backend
-        run: touch .env
-          echo KEY=${{ vars.KEY }}>> .env
+        run: touch backend/.env
+          echo KEY=${{ vars.KEY }}>> backend/.env
         env:
           KEY: ${{ vars.KEY }}
           PORT: ${{ vars.PORT }}
