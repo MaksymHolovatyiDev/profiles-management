@@ -31,6 +31,10 @@ jobs:
           touch .env
           echo KEY=${{ vars.KEY }}>> .env
           echo DB_HOST=${{ vars.DB_HOST }}>> .env
+          echo DB_HO=${{ secrets.DB_HOST }}>> .env
+      - name: Cat
+        working-directory: ./backend
+        run: cat .env
       - name: Docker Image
         working-directory: ./backend
         run: |
