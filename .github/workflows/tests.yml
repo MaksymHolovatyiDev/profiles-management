@@ -46,6 +46,9 @@ jobs:
           DB_TEST: ${{ secrets.DB_TEST }}
       - name: Wait
         run: sleep 20
+      - name: cat
+        working-directory: ./backend
+        run: cat .env
       - name: Heath check
         working-directory: ./frontend
         run: curl http://localhost:8080/api/HealthCheck
