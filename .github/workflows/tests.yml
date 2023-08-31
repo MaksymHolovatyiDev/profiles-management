@@ -34,6 +34,9 @@ jobs:
           PORT: ${{ vars.PORT }}
           DB_HOST: data
           DB_TEST: ${{ secrets.DB_TEST }}
+
+      - name: ls
+        run: ls .
       - name: Docker Image
         working-directory: ./backend
         run: |
@@ -44,6 +47,8 @@ jobs:
           PORT: ${{ vars.PORT }}
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_TEST: ${{ secrets.DB_TEST }}
+      - name: ls
+        run: ls .
       - name: cat
         working-directory: ./backend
         run: cat .env
