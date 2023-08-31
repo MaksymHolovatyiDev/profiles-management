@@ -25,6 +25,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Env
+        working-directory: ./backend
+        run: touch .env
+          echo KEY=${{ vars.KEY }}>> .env
+        env:
+          KEY: ${{ vars.KEY }}
+          PORT: ${{ vars.PORT }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_TEST: ${{ secrets.DB_TEST }}
+      - name: Wait
       - name: Docker Image
         working-directory: ./backend
         run: |
