@@ -38,7 +38,7 @@ jobs:
           DB_TEST: ${{ secrets.DB_TEST }}
       - name: Env
         working-directory: ./backend
-        run: echo "Key $KEY"
+        run: cat .env
       - name: Wait
         run: sleep 20
       - name: Heath check
