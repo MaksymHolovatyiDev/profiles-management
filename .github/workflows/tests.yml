@@ -27,10 +27,9 @@ jobs:
           node-version: 18
       - name: Env
         working-directory: ./backend
-        run: |
-          touch .env
-          echo DB_HOST=${{ secrets.DB_HOST }}>> .env
-          echo KEY=${{ vars.KEY }}>> .env
+        env:
+          KEY: ${{ vars.KEY }}
+          DB_HOST: ${{ secrets.DB_HOST }}
       - name: Docker Image
         working-directory: ./backend
         run: |
