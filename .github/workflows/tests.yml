@@ -32,7 +32,7 @@ jobs:
         env:
           KEY: ${{ vars.KEY }}
           PORT: ${{ vars.PORT }}
-          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_HOST: data
           DB_TEST: ${{ secrets.DB_TEST }}
       - name: Docker Image
         working-directory: ./backend
@@ -44,11 +44,11 @@ jobs:
           PORT: ${{ vars.PORT }}
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_TEST: ${{ secrets.DB_TEST }}
-      - name: Wait
-        run: sleep 20
       - name: cat
         working-directory: ./backend
         run: cat .env
+      - name: Wait
+        run: sleep 20
       - name: Heath check
         working-directory: ./frontend
         run: curl http://localhost:8080/api/HealthCheck
