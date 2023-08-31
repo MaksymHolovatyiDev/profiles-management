@@ -26,9 +26,10 @@ jobs:
         with:
           node-version: 18
       - name: Env
+        working-directory: ./backend
         run: |
-          touch ./backend/.env
-          echo KEY=${{ vars.KEY }}>> ./backend/.env
+          touch .env
+          echo KEY=fdsa>> .env
         env:
           KEY: ${{ vars.KEY }}
           PORT: ${{ vars.PORT }}
