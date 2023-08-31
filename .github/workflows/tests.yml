@@ -34,7 +34,6 @@ jobs:
           PORT: ${{ vars.PORT }}
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_TEST: ${{ secrets.DB_TEST }}
-      - name: Wait
       - name: Docker Image
         working-directory: ./backend
         run: |
