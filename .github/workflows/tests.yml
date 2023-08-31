@@ -36,6 +36,7 @@ jobs:
           DB_TEST: ${{ secrets.DB_TEST }}
 
       - name: ls
+        working-directory: ./backend
         run: ls .
       - name: Docker Image
         working-directory: ./backend
@@ -48,6 +49,7 @@ jobs:
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_TEST: ${{ secrets.DB_TEST }}
       - name: ls
+        working-directory: ./backend
         run: ls .
       - name: cat
         working-directory: ./backend
