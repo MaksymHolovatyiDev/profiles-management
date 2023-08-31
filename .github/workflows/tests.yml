@@ -25,18 +25,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: Env
-        working-directory: ./backend
-        env:
-          KEY: ${{ vars.KEY }}
-          DB_HOST: ${{ secrets.DB_HOST }}
       - name: Docker Image
         working-directory: ./backend
         run: |
           docker build -t backend/image:1.0 .
           docker run -d -p 8080:8080 backend/image:1.0
+        env:
+          KEY: ${{ vars.KEY }}
+          DB_HOST: ${{ secrets.DB_HOST }}
       - name: Wait
-        run: sleep 20
+        run: sleep 10
       - name: Heath check
         working-directory: ./frontend
         run: curl http://localhost:8080/api/HealthCheck
