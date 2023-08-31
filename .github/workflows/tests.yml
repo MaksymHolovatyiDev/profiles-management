@@ -29,7 +29,7 @@ jobs:
         working-directory: ./backend
         run: |
           touch .env
-          echo KEY=fdsa>> .env
+          echo KEY=${{ vars.KEY }}>> .env
         env:
           KEY: ${{ vars.KEY }}
           PORT: ${{ vars.PORT }}
