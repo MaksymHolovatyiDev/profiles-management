@@ -25,7 +25,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-
       - name: Docker Image
         working-directory: ./backend
         run: |
@@ -36,9 +35,6 @@ jobs:
           PORT: ${{ vars.PORT }}
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_TEST: ${{ secrets.DB_TEST }}
-      - name: Env
-        working-directory: ./backend
-        run: cat .env
       - name: Wait
         run: sleep 20
       - name: Heath check
